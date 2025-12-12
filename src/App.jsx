@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import BillingToggle from "./components/BillingToggle";
-import PlanCard from "./components/PlanCard";
-import { pricingPlans } from "./components/pricingData";
+import PlanCard from "./components/Plancard";
+import { pricingPlans } from "./components/pricingdata";
 
 export default function App() {
   const [billing, setBilling] = useState("monthly");
