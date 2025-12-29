@@ -50,7 +50,8 @@ body {
   }
 
   .text-medical-gradient {
-    @apply bg-clip-text text-transparent bg-medical-gradient;
+    @apply bg-clip-text text-transparent;
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   }
 
   /* Smooth hover effects */
