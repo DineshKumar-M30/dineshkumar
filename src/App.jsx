@@ -11,38 +11,42 @@ import Doctors from './hospital/pages/Doctors';
 import Appointments from './hospital/pages/Appointments';
 import Billing from './hospital/pages/Billing';
 import Login from './hospital/pages/Login';
+import TravelApp from './travel/TravelApp';
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        {/* Redirect Root to Hospital */}
-        <Route path="/" element={<Navigate to="/hospital/login" replace />} />
+    return (
+        <Router>
+            <Routes>
+                {/* Redirect Root to Travel App */}
+                <Route path="/" element={<Navigate to="/travel" replace />} />
 
-        {/* Hospital Management System */}
-        <Route path="/hospital/login" element={
-          <HospitalProvider>
-            <Login />
-          </HospitalProvider>
-        } />
+                {/* Hospital Management System */}
+                <Route path="/hospital/login" element={
+                    <HospitalProvider>
+                        <Login />
+                    </HospitalProvider>
+                } />
 
-        <Route path="/hospital" element={
-          <HospitalProvider>
-            <HospitalLayout />
-          </HospitalProvider>
-        }>
-          <Route index element={<Dashboard />} />
-          <Route path="patients" element={<Patients />} />
-          <Route path="doctors" element={<Doctors />} />
-          <Route path="appointments" element={<Appointments />} />
-          <Route path="billing" element={<Billing />} />
-        </Route>
+                <Route path="/hospital" element={
+                    <HospitalProvider>
+                        <HospitalLayout />
+                    </HospitalProvider>
+                }>
+                    <Route index element={<Dashboard />} />
+                    <Route path="patients" element={<Patients />} />
+                    <Route path="doctors" element={<Doctors />} />
+                    <Route path="appointments" element={<Appointments />} />
+                    <Route path="billing" element={<Billing />} />
+                </Route>
 
-        {/* E-commerce Platform - Primary Application */}
-        <Route path="/*" element={<EcommerceApp />} />
-      </Routes>
-    </Router>
-  );
+                {/* Travel Booking App */}
+                <Route path="/travel/*" element={<TravelApp />} />
+
+                {/* E-commerce Platform - Primary Application */}
+                <Route path="/*" element={<EcommerceApp />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
