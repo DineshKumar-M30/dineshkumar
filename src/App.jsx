@@ -12,13 +12,14 @@ import Appointments from './hospital/pages/Appointments';
 import Billing from './hospital/pages/Billing';
 import Login from './hospital/pages/Login';
 import TravelApp from './travel/TravelApp';
+import LandingPage from './landing/LandingPage';
 
 function App() {
     return (
         <Router>
             <Routes>
-                {/* Redirect Root to Travel App */}
-                <Route path="/" element={<Navigate to="/travel" replace />} />
+                {/* Redirect Root to Landing Page */}
+                <Route path="/" element={<Navigate to="/landing" replace />} />
 
                 {/* Hospital Management System */}
                 <Route path="/hospital/login" element={
@@ -41,6 +42,9 @@ function App() {
 
                 {/* Travel Booking App */}
                 <Route path="/travel/*" element={<TravelApp />} />
+
+                {/* Animated Landing Page */}
+                <Route path="/landing" element={<LandingPage />} />
 
                 {/* E-commerce Platform - Primary Application */}
                 <Route path="/*" element={<EcommerceApp />} />

@@ -1,0 +1,296 @@
+/* Landing Page - Enhanced Responsive Design */
+
+/* ===== GLOBAL RESPONSIVE FIXES ===== */
+
+/* Base container alignment */
+#root>div>main>section {
+    width: 100%;
+}
+
+#root>div>main>section>div {
+    max-width: 1280px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Mobile First - 320px to 639px */
+@media (max-width: 639px) {
+    #root>div>main>section>div {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    /* Reduce section padding on mobile */
+    #root>div>main>section {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    /* Hero section mobile adjustments */
+    section[class*="min-h-screen"] h1 {
+        font-size: 2.5rem !important;
+        line-height: 1.1 !important;
+    }
+
+    /* Feature cards mobile stack */
+    .grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3 {
+        gap: 1.5rem !important;
+    }
+
+    /* Testimonials bento grid mobile */
+    .grid.grid-cols-1.md\\:grid-cols-6 {
+        gap: 1rem !important;
+    }
+
+    /* CTA section mobile */
+    section form {
+        flex-direction: column !important;
+    }
+
+    /* Timeline mobile adjustments */
+    .max-w-4xl {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
+
+/* Tablet - 640px to 1023px */
+@media (min-width: 640px) and (max-width: 1023px) {
+    #root>div>main>section>div {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+
+    /* Hero section tablet */
+    section[class*="min-h-screen"] h1 {
+        font-size: 3.5rem !important;
+    }
+
+    /* Feature cards 2-column on tablet */
+    .grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 2rem !important;
+    }
+
+    /* About section tablet layout */
+    .flex.flex-col.lg\\:flex-row {
+        gap: 3rem !important;
+    }
+}
+
+/* Desktop - 1024px and above */
+@media (min-width: 1024px) {
+    #root>div>main>section>div {
+        padding-left: 2rem !important;
+        padding-right: 2rem !important;
+    }
+}
+
+/* ===== NAVBAR RESPONSIVE ===== */
+nav>div {
+    max-width: 1280px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+@media (max-width: 767px) {
+
+    /* Hide desktop nav items on mobile */
+    nav .hidden.md\\:flex {
+        display: none !important;
+    }
+
+    /* Show mobile menu button */
+    nav .md\\:hidden {
+        display: block !important;
+    }
+}
+
+/* ===== FOOTER RESPONSIVE ===== */
+footer>div {
+    max-width: 1280px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+@media (max-width: 767px) {
+
+    /* Footer grid mobile stack */
+    footer .grid.grid-cols-2.md\\:grid-cols-4 {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+
+    /* Footer bottom section stack */
+    footer .flex.flex-col.md\\:flex-row {
+        flex-direction: column !important;
+        gap: 1rem !important;
+        text-align: center !important;
+    }
+}
+
+/* ===== SHOWCASE GRID RESPONSIVE ===== */
+@media (max-width: 767px) {
+
+    /* Single column on mobile */
+    .grid.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Showcase modal mobile */
+    .fixed.top-1\\/2.left-1\\/2 {
+        width: 95% !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+    }
+}
+
+/* ===== TESTIMONIALS RESPONSIVE ===== */
+@media (max-width: 767px) {
+
+    /* Stack all testimonials on mobile */
+    .grid.grid-cols-1.md\\:grid-cols-6>div {
+        grid-column: span 1 !important;
+    }
+
+    /* Remove fixed height on mobile */
+    .grid.grid-cols-1.md\\:grid-cols-6 {
+        height: auto !important;
+    }
+}
+
+/* ===== HOW IT WORKS TIMELINE RESPONSIVE ===== */
+@media (max-width: 767px) {
+
+    /* Timeline mobile - left aligned */
+    .max-w-4xl>div>div {
+        flex-direction: row !important;
+        text-align: left !important;
+    }
+
+    /* Hide alternating layout on mobile */
+    .max-w-4xl>div>div.md\\:flex-row-reverse {
+        flex-direction: row !important;
+    }
+}
+
+/* ===== ABOUT SECTION RESPONSIVE ===== */
+@media (max-width: 1023px) {
+
+    /* Stack content and image on tablet/mobile */
+    .flex.flex-col.lg\\:flex-row.items-center {
+        flex-direction: column !important;
+    }
+
+    /* Full width image on mobile */
+    .flex-1.relative {
+        width: 100% !important;
+    }
+
+    /* Adjust image aspect ratio on mobile */
+    .aspect-square {
+        aspect-ratio: 16/9 !important;
+    }
+}
+
+/* ===== HERO SECTION RESPONSIVE ===== */
+@media (max-width: 639px) {
+
+    /* Reduce hero padding top on mobile */
+    section[class*="min-h-screen"] {
+        padding-top: 5rem !important;
+        min-height: 100svh !important;
+    }
+
+    /* Stack hero buttons on mobile */
+    .flex.flex-col.sm\\:flex-row.items-center.justify-center {
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    .flex.flex-col.sm\\:flex-row.items-center.justify-center>button {
+        width: 100% !important;
+    }
+}
+
+/* ===== CTA SECTION RESPONSIVE ===== */
+@media (max-width: 639px) {
+
+    /* CTA heading mobile */
+    section h2 {
+        font-size: 2rem !important;
+    }
+
+    /* Newsletter form mobile */
+    form.flex {
+        padding: 0.5rem !important;
+    }
+
+    form.flex input {
+        padding: 0.75rem 1rem !important;
+    }
+
+    form.flex button {
+        padding: 0.75rem 1.5rem !important;
+    }
+}
+
+/* ===== LOGOS MARQUEE RESPONSIVE ===== */
+@media (max-width: 767px) {
+
+    /* Smaller logos on mobile */
+    .flex.whitespace-nowrap img {
+        height: 2rem !important;
+    }
+
+    .flex.whitespace-nowrap span {
+        font-size: 1rem !important;
+    }
+
+    .flex.whitespace-nowrap {
+        gap: 2rem !important;
+    }
+}
+
+/* ===== TOUCH DEVICE OPTIMIZATIONS ===== */
+@media (hover: none) and (pointer: coarse) {
+
+    /* Remove hover effects on touch devices */
+    .hover\\:scale-110,
+    .group-hover\\:scale-110 {
+        transform: none !important;
+    }
+
+    /* Increase tap targets */
+    button,
+    a {
+        min-height: 44px !important;
+        min-width: 44px !important;
+    }
+}
+
+/* ===== LANDSCAPE MOBILE FIXES ===== */
+@media (max-width: 767px) and (orientation: landscape) {
+    section[class*="min-h-screen"] {
+        min-height: auto !important;
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+}
+
+/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ===== SAFE AREA INSETS (for notched devices) ===== */
+@supports (padding: max(0px)) {
+    #root>div>main>section>div {
+        padding-left: max(1rem, env(safe-area-inset-left)) !important;
+        padding-right: max(1rem, env(safe-area-inset-right)) !important;
+    }
+}
