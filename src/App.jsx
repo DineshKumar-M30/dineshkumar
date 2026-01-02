@@ -14,6 +14,8 @@ import Login from './hospital/pages/Login';
 import TravelApp from './travel/TravelApp';
 import LandingPage from './landing/LandingPage';
 import FitnessApp from './fitness/FitnessApp';
+import SignIn from './fitness/pages/SignIn';
+import { ToastProvider } from './fitness/context/ToastContext';
 
 function App() {
     return (
@@ -48,6 +50,11 @@ function App() {
                 <Route path="/landing" element={<LandingPage />} />
 
                 {/* Gamified Fitness Webpage */}
+                <Route path="/fitness/signin" element={
+                    <ToastProvider>
+                        <SignIn />
+                    </ToastProvider>
+                } />
                 <Route path="/fitness" element={<FitnessApp />} />
 
                 {/* E-commerce Platform - Primary Application */}

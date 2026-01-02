@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Hero from './components/Hero';
 import DailyGoalRing from './components/DailyGoalRing';
 import WorkoutCards from './components/WorkoutCards';
@@ -10,9 +11,61 @@ import ChallengeSection from './components/ChallengeSection';
 import Leaderboard from './components/Leaderboard';
 import NutritionTips from './components/NutritionTips';
 import GymGallery from './components/GymGallery';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { ToastProvider } from './context/ToastContext';
 import './fitness.css';
 
-const FitnessApp = () => {
+const ThemeToggle = () => {
+    const { theme, toggleTheme } = useTheme();
+    return (
+        <button
+            onClick={toggleTheme}
+            style={{
+                background: 'none',
+                border: 'none',
+                fontSize: '1.5rem',
+                cursor: 'pointer',
+                transition: 'transform 0.3s ease',
+                padding: '0.5rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--text-primary)'
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'rotate(15deg) scale(1.1)'}
+            onMouseLeave={(e) => e.target.style.transform = 'rotate(0) scale(1)'}
+            title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+        >
+            {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
+    );
+};
+
+const FitnessAppContent = () => {
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('fitness_user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
+    const handleProfileClick = () => {
+        if (!user) {
+            navigate('/fitness/signin');
+        } else {
+            // Simple logout for demo
+            if (window.confirm(`Logged in as ${user.name}. Log out?`)) {
+                localStorage.removeItem('fitness_user');
+                localStorage.removeItem('isLoggedIn');
+                setUser(null);
+                window.location.reload();
+            }
+        }
+    };
+
     return (
         <div className="fitness-app">
             {/* Navigation Bar */}
@@ -31,6 +84,7 @@ const FitnessApp = () => {
                         justifyContent: 'space-between',
                         alignItems: 'center'
                     }}>
+                        {/* Logo Section */}
                         <div style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -109,38 +163,46 @@ const FitnessApp = () => {
                             ))}
                         </div>
 
-                        {/* User Profile */}
+                        {/* User Profile & Theme Toggle */}
                         <div style={{
                             display: 'flex',
                             alignItems: 'center',
                             gap: '1rem'
                         }}>
+                            <ThemeToggle />
+
                             <div style={{ textAlign: 'right' }}>
                                 <div style={{
                                     fontSize: '0.875rem',
                                     fontWeight: 600
                                 }}>
-                                    Level 12
+                                    {user ? user.name : 'Guest'}
                                 </div>
                                 <div style={{
                                     fontSize: '0.75rem',
                                     color: 'var(--text-muted)'
                                 }}>
-                                    2,450 XP
+                                    {user ? `Level ${user.level}` : 'Sign In'}
                                 </div>
                             </div>
-                            <div style={{
-                                width: '45px',
-                                height: '45px',
-                                borderRadius: '50%',
-                                background: 'var(--primary-gradient)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                fontSize: '1.5rem',
-                                cursor: 'pointer',
-                                boxShadow: 'var(--glow-blue)'
-                            }}>
+                            <div
+                                onClick={handleProfileClick}
+                                style={{
+                                    width: '45px',
+                                    height: '45px',
+                                    borderRadius: '50%',
+                                    background: user ? 'var(--primary-gradient)' : 'var(--bg-tertiary)',
+                                    border: user ? 'none' : '1px solid var(--glass-border)',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    fontSize: '1.5rem',
+                                    cursor: 'pointer',
+                                    boxShadow: user ? 'var(--glow-blue)' : 'none',
+                                    transition: 'all 0.3s ease'
+                                }}
+                                title={user ? "Click to Log Out" : "Click to Sign In"}
+                            >
                                 👤
                             </div>
                         </div>
@@ -356,6 +418,16 @@ const FitnessApp = () => {
         `}
             </style>
         </div>
+    );
+};
+
+const FitnessApp = () => {
+    return (
+        <ThemeProvider>
+            <ToastProvider>
+                <FitnessAppContent />
+            </ToastProvider>
+        </ThemeProvider>
     );
 };
 

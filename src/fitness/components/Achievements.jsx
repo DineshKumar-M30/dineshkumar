@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import '../fitness.css';
+import { useToast } from '../context/ToastContext';
 
 const Achievements = () => {
     const [selectedAchievement, setSelectedAchievement] = useState(null);
+    const { showToast } = useToast();
 
     const achievements = [
         {
@@ -116,15 +118,25 @@ const Achievements = () => {
     const handleAchievementClick = (achievement) => {
         setSelectedAchievement(achievement);
         if (achievement.unlocked) {
-            alert(`🏆 ${achievement.name}\n\n${achievement.description}\n\nRarity: ${achievement.rarity}\n\nUnlocked! ✅`);
+            showToast(`Unlocked: ${achievement.name} - ${achievement.description}`, 'success');
         } else {
-            alert(`🔒 ${achievement.name}\n\n${achievement.description}\n\nRarity: ${achievement.rarity}\n\nKeep working to unlock this achievement!`);
+            showToast(`${achievement.name} is locked. ${achievement.description}`, 'error');
         }
     };
 
     const unlockedCount = achievements.filter(a => a.unlocked).length;
     const totalCount = achievements.length;
     const completionPercentage = Math.round((unlockedCount / totalCount) * 100);
+
+    const handleShare = (e, achievement) => {
+        e.stopPropagation();
+        const text = `I just unlocked the "${achievement.name}" achievement in FitQuest! 🏆\n${achievement.description}\nJoin me on the quest!`;
+        navigator.clipboard.writeText(text).then(() => {
+            showToast('Achievement copied to clipboard! 📋', 'success');
+        }).catch(() => {
+            showToast('Failed to copy to clipboard', 'error');
+        });
+    };
 
     return (
         <section className="section" id="achievements" style={{ background: 'var(--bg-secondary)' }}>
@@ -189,10 +201,10 @@ const Achievements = () => {
                         <div
                             key={achievement.id}
                             className={`glass-card achievement-card stagger-item ${achievement.unlocked ? 'unlocked' : 'locked'} ${achievement.name === 'Strength Legend' ? 'achievement-strength' :
-                                    achievement.name === 'Zen Master' ? 'achievement-zen' :
-                                        achievement.name === 'Consistency King' ? 'achievement-consistency' :
-                                            achievement.name === 'Night Owl' ? 'achievement-night' :
-                                                achievement.name === 'Ultimate Champion' ? 'achievement-champion' : ''
+                                achievement.name === 'Zen Master' ? 'achievement-zen' :
+                                    achievement.name === 'Consistency King' ? 'achievement-consistency' :
+                                        achievement.name === 'Night Owl' ? 'achievement-night' :
+                                            achievement.name === 'Ultimate Champion' ? 'achievement-champion' : ''
                                 }`}
                             style={{
                                 cursor: 'pointer',
@@ -206,6 +218,40 @@ const Achievements = () => {
                             }}
                             onClick={() => handleAchievementClick(achievement)}
                         >
+                            {achievement.unlocked && (
+                                <button
+                                    onClick={(e) => handleShare(e, achievement)}
+                                    style={{
+                                        position: 'absolute',
+                                        top: '0.75rem',
+                                        left: '0.75rem',
+                                        background: 'rgba(255,255,255,0.1)',
+                                        border: '1px solid var(--glass-border)',
+                                        borderRadius: '50%',
+                                        width: '32px',
+                                        height: '32px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        cursor: 'pointer',
+                                        fontSize: '0.9rem',
+                                        transition: 'all 0.2s',
+                                        zIndex: 10,
+                                        color: 'var(--text-primary)'
+                                    }}
+                                    title="Share Achievement"
+                                    onMouseEnter={(e) => {
+                                        e.target.style.background = 'var(--primary-blue)';
+                                        e.target.style.color = 'white';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.target.style.background = 'rgba(255,255,255,0.1)';
+                                        e.target.style.color = 'var(--text-primary)';
+                                    }}
+                                >
+                                    📤
+                                </button>
+                            )}
                             {/* Rarity Indicator */}
                             <div style={{
                                 position: 'absolute',
