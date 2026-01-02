@@ -13,13 +13,14 @@ import Billing from './hospital/pages/Billing';
 import Login from './hospital/pages/Login';
 import TravelApp from './travel/TravelApp';
 import LandingPage from './landing/LandingPage';
+import FitnessApp from './fitness/FitnessApp';
 
 function App() {
     return (
         <Router>
             <Routes>
-                {/* Redirect Root to Landing Page */}
-                <Route path="/" element={<Navigate to="/landing" replace />} />
+                {/* Redirect Root to Fitness Page */}
+                <Route path="/" element={<Navigate to="/fitness" replace />} />
 
                 {/* Hospital Management System */}
                 <Route path="/hospital/login" element={
@@ -45,6 +46,9 @@ function App() {
 
                 {/* Animated Landing Page */}
                 <Route path="/landing" element={<LandingPage />} />
+
+                {/* Gamified Fitness Webpage */}
+                <Route path="/fitness" element={<FitnessApp />} />
 
                 {/* E-commerce Platform - Primary Application */}
                 <Route path="/*" element={<EcommerceApp />} />
