@@ -14,6 +14,7 @@ import Login from './hospital/pages/Login';
 import TravelApp from './travel/TravelApp';
 import LandingPage from './landing/LandingPage';
 import FitnessApp from './fitness/FitnessApp';
+import ProjectManagementApp from './project-management/ProjectManagementApp';
 import SignIn from './fitness/pages/SignIn';
 import { ToastProvider } from './fitness/context/ToastContext';
 
@@ -21,8 +22,8 @@ function App() {
     return (
         <Router>
             <Routes>
-                {/* Redirect Root to Fitness Page */}
-                <Route path="/" element={<Navigate to="/fitness" replace />} />
+                {/* Redirect Root to Project Management Dashboard */}
+                <Route path="/" element={<Navigate to="/project-dashboard" replace />} />
 
                 {/* Hospital Management System */}
                 <Route path="/hospital/login" element={
@@ -56,6 +57,9 @@ function App() {
                     </ToastProvider>
                 } />
                 <Route path="/fitness" element={<FitnessApp />} />
+
+                {/* Smart Project Management Dashboard */}
+                <Route path="/project-dashboard/*" element={<ProjectManagementApp />} />
 
                 {/* E-commerce Platform - Primary Application */}
                 <Route path="/*" element={<EcommerceApp />} />
