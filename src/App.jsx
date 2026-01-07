@@ -1,71 +1,52 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import EcommerceApp from './ecommerce/EcommerceApp';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Hero from './components/Hero';
+import Gallery from './components/Gallery';
+import About from './components/About';
+import Footer from './components/Footer';
+import FAQ from './components/FAQ';
+import Services from './components/Services';
+import Contact from './components/Contact';
 
-// Hospital Components
-import { HospitalProvider } from './hospital/context/HospitalContext';
-import HospitalLayout from './hospital/components/HospitalLayout';
-import Dashboard from './hospital/pages/Dashboard';
-import Patients from './hospital/pages/Patients';
-import Doctors from './hospital/pages/Doctors';
-import Appointments from './hospital/pages/Appointments';
-import Billing from './hospital/pages/Billing';
-import Login from './hospital/pages/Login';
-import TravelApp from './travel/TravelApp';
-import LandingPage from './landing/LandingPage';
-import FitnessApp from './fitness/FitnessApp';
-import ProjectManagementApp from './project-management/ProjectManagementApp';
-import SignIn from './fitness/pages/SignIn';
-import { ToastProvider } from './fitness/context/ToastContext';
+// Page Components
+const HomePage = () => (
+  <>
+    <Hero />
+    <Gallery />
+    <About />
+    <FAQ />
+  </>
+);
+
+const AboutPage = () => (
+  <>
+    <About />
+    <FAQ />
+  </>
+);
+
+const ServicesPage = () => (
+  <Services />
+);
+
+const ContactPage = () => (
+  <Contact />
+);
 
 function App() {
-    return (
-        <Router>
-            <Routes>
-                {/* Redirect Root to Project Management Dashboard */}
-                <Route path="/" element={<Navigate to="/project-dashboard" replace />} />
-
-                {/* Hospital Management System */}
-                <Route path="/hospital/login" element={
-                    <HospitalProvider>
-                        <Login />
-                    </HospitalProvider>
-                } />
-
-                <Route path="/hospital" element={
-                    <HospitalProvider>
-                        <HospitalLayout />
-                    </HospitalProvider>
-                }>
-                    <Route index element={<Dashboard />} />
-                    <Route path="patients" element={<Patients />} />
-                    <Route path="doctors" element={<Doctors />} />
-                    <Route path="appointments" element={<Appointments />} />
-                    <Route path="billing" element={<Billing />} />
-                </Route>
-
-                {/* Travel Booking App */}
-                <Route path="/travel/*" element={<TravelApp />} />
-
-                {/* Animated Landing Page */}
-                <Route path="/landing" element={<LandingPage />} />
-
-                {/* Gamified Fitness Webpage */}
-                <Route path="/fitness/signin" element={
-                    <ToastProvider>
-                        <SignIn />
-                    </ToastProvider>
-                } />
-                <Route path="/fitness" element={<FitnessApp />} />
-
-                {/* Smart Project Management Dashboard */}
-                <Route path="/project-dashboard/*" element={<ProjectManagementApp />} />
-
-                {/* E-commerce Platform - Primary Application */}
-                <Route path="/*" element={<EcommerceApp />} />
-            </Routes>
-        </Router>
-    );
+  return (
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/contacts" element={<ContactPage />} />
+      </Routes>
+      <Footer />
+    </Router>
+  );
 }
 
 export default App;

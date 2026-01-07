@@ -1,0 +1,106 @@
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    color: var(--color-jet-black);
+    /* Changed to dark by default as per visual cues, or handle background logic */
+    /* Wait, hero is dark image. On Homepage, text should be light initially? 
+       Actually, ref image shows white background header section on "Services" page.
+       Let's stick to transparent on Home and solid on others? Or consistent?
+       Ref image 0 (Services) has light background, dark text.
+       Ref image 1 (Contacts) has dark gray background, black text "Cars Classic...".
+       Let's make it smart.
+    */
+    background-color: transparent;
+}
+
+body:has(.hero) .header {
+    /* If there is a hero section (Home), keep text white/light until scroll? 
+       Actually, Ref Image 1/2/3 show a persistent header style.
+       Let's assume sticky/fixed header.
+       On light pages (Services), text is dark.
+       On dark pages?
+       
+       Let's default to a slight background or rely on the scrolled state.
+       The provided ref:
+       Services page: White bg, Header text is dark.
+       Contacts page: Grey bg, Header text is dark.
+       
+       So we need dark text for navigation by default on these white pages.
+       BUT, our Home page has a dark Hero image.
+       We need dynamic header styling or a distinct header wrapper for home.
+       
+       For now, let's set text color to dark and background to white/transparent? 
+       If I set text black, it might be invisible on dark hero.
+       Let's use a class based on route location? Or just scrolled logic.
+       
+       The Reference images show a CLEAN header with dark text. 
+       Let's change current implementation to match the 'white pages' aesthetic for subpages.
+    */
+    color: #333;
+    background: rgba(255, 255, 255, 0.95);
+    /* Making it solidish white for consistency across pages */
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.header.scrolled {
+    background-color: rgba(255, 255, 255, 0.98);
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-family: var(--font-sans);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: inherit;
+    text-transform: none;
+    /* Ref shows "Cars Classic Autotrader" normal case */
+    letter-spacing: 0;
+}
+
+.nav-list {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-link {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: inherit;
+    transition: opacity 0.3s;
+    font-weight: 400;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    opacity: 0.6;
+}
+
+.header-contact {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: inherit;
+}
+
+@media (max-width: 768px) {
+    .header-contact {
+        display: none;
+    }
+
+    .nav-list {
+        gap: 15px;
+        font-size: 0.8rem;
+    }
+}
