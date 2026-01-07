@@ -39,21 +39,16 @@
 
 /* Fallback colors since image gen failed */
 .shipping-card {
-    background-color: #78909c;
-    /* Steel Blue for Shipping */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+    background-image: url('../assets/1.png');
 }
 
 .warranty-card {
-    background-color: #ef5350;
-    /* Red for Warranty */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+    background-image: url('../assets/2.png');
 }
 
 .financing-card {
-    background-color: #ffd54f;
-    /* Gold for Financing */
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3));
+    background-image: url('../assets/3.png');
+
 }
 
 .card-overlay {
