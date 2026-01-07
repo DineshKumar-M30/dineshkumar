@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import car1 from '../assets/car_1.png';
-import car2 from '../assets/car_2.png';
-import car3 from '../assets/car_3.png';
-import car4 from '../assets/car_4.png';
-import car5 from '../assets/car_5.png';
+import car2 from '../assets/4.png';
+import car3 from '../assets/5.png';
+import car4 from '../assets/6.png';
+import car5 from '../assets/7.png';
 import './Gallery.css';
 
 const cars = [

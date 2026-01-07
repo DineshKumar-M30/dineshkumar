@@ -1,5 +1,5 @@
 import React from 'react';
-import car1 from '../assets/car_1.png'; // Using Lincoln for the BW stats image
+import car1 from '../assets/8.png'; // Using Lincoln for the BW stats image
 import './About.css';
 
 const About = () => {
