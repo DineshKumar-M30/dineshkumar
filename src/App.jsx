@@ -1,50 +1,28 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import Gallery from './components/Gallery';
-import About from './components/About';
+import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import FAQ from './components/FAQ';
-import Services from './components/Services';
-import Contact from './components/Contact';
-
-// Page Components
-const HomePage = () => (
-  <>
-    <Hero />
-    <Gallery />
-    <About />
-    <FAQ />
-  </>
-);
-
-const AboutPage = () => (
-  <>
-    <About />
-    <FAQ />
-  </>
-);
-
-const ServicesPage = () => (
-  <Services />
-);
-
-const ContactPage = () => (
-  <Contact />
-);
+import Home from './pages/Home';
+import About from './pages/About';
+import Projects from './pages/Projects';
+import Gallery from './pages/Gallery';
+import Contact from './pages/Contact';
 
 function App() {
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/contacts" element={<ContactPage />} />
-      </Routes>
-      <Footer />
+      <div className="bg-dark min-h-screen text-white transition-opacity duration-500">
+        <Navbar />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }
