@@ -4,7 +4,7 @@ import { TrendingUp, TrendingDown } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../context/ThemeContext';
 
-const KPICard = ({ title, value, trend, percentage, icon: Icon, color }) => {
+const KPICard = ({ title, value, trend, percentage, icon: Icon, color, progressColor }) => {
     const { theme } = useTheme();
 
     return (
@@ -13,36 +13,43 @@ const KPICard = ({ title, value, trend, percentage, icon: Icon, color }) => {
             className={cn(
                 "p-6 rounded-2xl border transition-all duration-300 shadow-sm",
                 theme === 'dark'
-                    ? "bg-slate-900 border-slate-800 hover:border-slate-700"
+                    ? "bg-[#1f2937] border-slate-800 hover:border-slate-700"
                     : "bg-white border-slate-200 hover:shadow-md"
             )}
         >
             <div className="flex justify-between items-start mb-4">
-                <div className={cn(
-                    "p-3 rounded-xl",
-                    theme === 'dark' ? "bg-slate-800" : "bg-slate-50",
-                    color
+                <h3 className={cn(
+                    "text-sm font-semibold",
+                    theme === 'dark' ? "text-slate-400" : "text-slate-500"
                 )}>
-                    <Icon size={24} />
-                </div>
+                    {title}
+                </h3>
                 <div className={cn(
-                    "flex items-center gap-1 text-xs font-bold px-2 py-1 rounded-lg",
+                    "flex items-center gap-1 text-[10px] font-bold px-1.5 py-0.5 rounded",
                     trend === 'up'
                         ? "text-emerald-500 bg-emerald-500/10"
                         : "text-rose-500 bg-rose-500/10"
                 )}>
-                    {trend === 'up' ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-                    {percentage}%
+                    {trend === 'up' ? "+" : "-"}{percentage}% vs last month
                 </div>
             </div>
 
-            <p className="text-slate-400 text-sm font-medium mb-1">{title}</p>
-            <h3 className={cn(
-                "text-2xl font-bold tracking-tight",
-                theme === 'dark' ? "text-slate-100" : "text-slate-900"
-            )}>
-                {value}
-            </h3>
+            <div className="mb-4">
+                <h2 className={cn(
+                    "text-3xl font-bold tracking-tight",
+                    theme === 'dark' ? "text-white" : "text-slate-900"
+                )}>
+                    {value}
+                </h2>
+            </div>
+
+            <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${60 + Math.random() * 30}%` }}
+                    className={cn("h-full", progressColor)}
+                />
+            </div>
         </motion.div>
     );
 };

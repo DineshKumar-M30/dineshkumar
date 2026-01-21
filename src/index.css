@@ -6,6 +6,14 @@
   html {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
+
+  body {
+    @apply transition-colors duration-300;
+  }
+
+  .dark body {
+    background-color: #111827;
+  }
 }
 
 .backdrop-blur-md {

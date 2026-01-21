@@ -17,9 +17,10 @@ import { cn } from '../../utils/cn';
 import { useTheme } from '../../context/ThemeContext';
 
 const menuItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', id: 'dashboard' },
+    { icon: LayoutDashboard, label: 'Overview', id: 'dashboard' },
     { icon: BarChart3, label: 'Analytics', id: 'analytics' },
     { icon: Users, label: 'Customers', id: 'customers' },
+    { icon: FileText, label: 'Transactions', id: 'transactions' },
     { icon: FileText, label: 'Reports', id: 'reports' },
     { icon: Settings, label: 'Settings', id: 'settings' },
 ];
@@ -35,37 +36,24 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
             className={cn(
                 "h-screen sticky top-0 border-r transition-colors duration-300 flex flex-col z-50",
                 theme === 'dark'
-                    ? "bg-slate-900 border-slate-800 text-slate-400"
+                    ? "bg-[#111827] border-slate-800 text-slate-400"
                     : "bg-white border-slate-200 text-slate-600"
             )}
         >
             {/* Header */}
-            <div className="p-6 flex items-center justify-between">
-                {!isCollapsed && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="flex items-center gap-2 font-bold text-xl text-blue-500"
-                    >
-                        <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center text-white">
-                            <BarChart3 size={20} />
-                        </div>
-                        <span>Smartly</span>
-                    </motion.div>
-                )}
-                <button
-                    onClick={() => setIsCollapsed(!isCollapsed)}
-                    className={cn(
-                        "p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors",
-                        isCollapsed && "mx-auto"
+            <div className="p-6">
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
+                        <BarChart3 size={24} />
+                    </div>
+                    {!isCollapsed && (
+                        <span className="font-bold text-xl text-slate-100 tracking-tight">SmartDash</span>
                     )}
-                >
-                    {isCollapsed ? <Menu size={20} /> : <ChevronLeft size={20} />}
-                </button>
+                </div>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 px-4 py-4 space-y-2">
+            <nav className="flex-1 px-4 py-6 space-y-1">
                 {menuItems.map((item) => (
                     <button
                         key={item.id}
@@ -73,46 +61,44 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
                         className={cn(
                             "w-full flex items-center gap-3 p-3 rounded-xl transition-all relative group",
                             activeTab === item.id
-                                ? "text-blue-500 bg-blue-50/50 dark:bg-blue-500/10"
-                                : "hover:bg-slate-50 dark:hover:bg-slate-800/50",
+                                ? "text-white bg-blue-600 shadow-lg shadow-blue-600/20"
+                                : "hover:bg-slate-800/50 text-slate-400 hover:text-slate-200",
                             isCollapsed && "justify-center"
                         )}
                     >
-                        <item.icon size={22} className={cn(
-                            "transition-colors",
-                            activeTab === item.id ? "text-blue-500" : "text-slate-400"
-                        )} />
+                        <item.icon size={22} />
                         {!isCollapsed && <span className="font-medium">{item.label}</span>}
 
-                        {/* Active Indicator */}
-                        {activeTab === item.id && (
-                            <motion.div
-                                layoutId="active-pill"
-                                className="absolute left-0 w-1 h-6 bg-blue-500 rounded-r-full"
-                            />
-                        )}
-
-                        {/* Tooltip for collapsed state */}
-                        {isCollapsed && (
-                            <div className="absolute left-full ml-4 px-2 py-1 bg-slate-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity whitespace-nowrap z-50">
-                                {item.label}
-                            </div>
+                        {/* Active Indicator (Pill) */}
+                        {activeTab === item.id && !isCollapsed && (
+                            <div className="absolute right-3 w-1.5 h-1.5 bg-white rounded-full" />
                         )}
                     </button>
                 ))}
             </nav>
 
-            {/* Footer / Theme Toggle */}
-            <div className="p-4 border-t border-slate-200 dark:border-slate-800">
+            {/* Footer / Theme & Collapse */}
+            <div className="p-4 space-y-2 border-t border-slate-800">
                 <button
                     onClick={toggleTheme}
                     className={cn(
-                        "w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all",
+                        "w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-800 text-slate-400 transition-all",
                         isCollapsed && "justify-center"
                     )}
                 >
                     {theme === 'light' ? <Moon size={22} /> : <Sun size={22} />}
                     {!isCollapsed && <span className="font-medium">{theme === 'light' ? 'Dark Mode' : 'Light Mode'}</span>}
+                </button>
+
+                <button
+                    onClick={() => setIsCollapsed(!isCollapsed)}
+                    className={cn(
+                        "w-full flex items-center gap-3 p-3 rounded-xl hover:bg-slate-800 text-slate-400 transition-all",
+                        isCollapsed && "justify-center"
+                    )}
+                >
+                    <ChevronLeft className={cn("transition-transform", isCollapsed && "rotate-180")} size={22} />
+                    {!isCollapsed && <span className="font-medium">Collapse</span>}
                 </button>
             </div>
         </motion.aside>

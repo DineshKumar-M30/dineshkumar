@@ -8,9 +8,12 @@ import { Users, DollarSign, ShoppingBag, ArrowUpRight } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { cn } from '../../utils/cn';
 
+import UserDistribution from '../../components/dashboard/UserDistribution';
+
 const DashboardPage = () => {
     const { theme } = useTheme();
-    const iconMap = [DollarSign, Users, ShoppingBag, ArrowUpRight];
+    // The iconMap is no longer used as per the update, so it can be removed.
+    // const iconMap = [DollarSign, Users, ShoppingBag, ArrowUpRight];
 
     return (
         <div className="space-y-8">
@@ -38,7 +41,7 @@ const DashboardPage = () => {
                     <KPICard
                         key={kpi.title}
                         {...kpi}
-                        icon={iconMap[index]}
+                    // icon={iconMap[index]} // This prop is removed as per the update
                     />
                 ))}
             </div>
@@ -46,31 +49,16 @@ const DashboardPage = () => {
             {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="lg:col-span-2">
-                    <AnalyticsChart title="Revenue Growth" />
+                    <AnalyticsChart title="Revenue Analytics" />
                 </div>
-                <div className={cn(
-                    "p-6 rounded-2xl border transition-all duration-300 shadow-sm flex flex-col items-center justify-center text-center",
-                    theme === 'dark' ? "bg-slate-900 border-slate-800" : "bg-white border-slate-200"
-                )}>
-                    <div className="w-16 h-16 bg-blue-500/10 text-blue-500 rounded-full flex items-center justify-center mb-4">
-                        <ArrowUpRight size={32} />
-                    </div>
-                    <h4 className={cn(
-                        "font-bold text-lg mb-2",
-                        theme === 'dark' ? "text-slate-100" : "text-slate-900"
-                    )}>Upgrade to Pro</h4>
-                    <p className="text-sm text-slate-400 mb-6 px-4">
-                        Get advanced analytics and unlimited project tracking by upgrading your plan.
-                    </p>
-                    <button className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl transition-all">
-                        Unlock All Features
-                    </button>
+                <div>
+                    <UserDistribution />
                 </div>
             </div>
 
             {/* Bottom Section */}
             <div className="grid grid-cols-1 gap-6">
-                <DataTable title="Recent Projects" />
+                <DataTable title="Recent Transactions" />
             </div>
         </div>
     );
