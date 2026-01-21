@@ -6,9 +6,7 @@ import DashboardPage from './pages/dashboard/DashboardPage';
 function App() {
   return (
     <ThemeProvider>
-      <Layout>
-        <DashboardPage />
-      </Layout>
+      <Layout />
     </ThemeProvider>
   );
 }

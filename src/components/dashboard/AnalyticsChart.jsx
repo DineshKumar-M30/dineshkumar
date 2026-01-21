@@ -96,7 +96,7 @@ const AnalyticsChart = ({ title }) => {
                         />
                         <Area
                             type="monotone"
-                            dataKey="revenue"
+                            dataKey="users"
                             stroke="#3b82f6"
                             strokeWidth={3}
                             fillOpacity={1}
@@ -104,9 +104,9 @@ const AnalyticsChart = ({ title }) => {
                         />
                         <Area
                             type="monotone"
-                            dataKey="users"
+                            dataKey="revenue"
                             stroke="#10b981"
-                            strokeWidth={2}
+                            strokeWidth={3}
                             fillOpacity={1}
                             fill="url(#colorUsers)"
                         />

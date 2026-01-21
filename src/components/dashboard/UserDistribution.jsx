@@ -4,10 +4,10 @@ import { useTheme } from '../../context/ThemeContext';
 import { cn } from '../../utils/cn';
 
 const data = [
-    { name: 'SaaS', value: 400, color: '#3b82f6' },
+    { name: 'Desktop', value: 200, color: '#ef4444' },
     { name: 'E-commerce', value: 300, color: '#10b981' },
     { name: 'Mobile', value: 300, color: '#f59e0b' },
-    { name: 'Desktop', value: 200, color: '#ef4444' },
+    { name: 'SaaS', value: 400, color: '#3b82f6' },
 ];
 
 const UserDistribution = () => {
