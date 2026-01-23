@@ -1,67 +1,209 @@
 import React, { useState } from 'react';
+import { Search, Bell, ChevronDown, Menu, UserCog, Key, RotateCw, LogOut, Check, Settings, Calendar, User, AlertCircle } from 'lucide-react';
 
-const Navbar = () => {
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const Navbar = ({ onMenuClick }) => {
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
+    const [isLangOpen, setIsLangOpen] = useState(false);
+    const [isNotifyOpen, setIsNotifyOpen] = useState(false);
+    const [selectedLang, setSelectedLang] = useState({
+        name: 'English',
+        code: 'gb',
+        flag: 'https://i.pinimg.com/1200x/60/e1/2e/60e12ef8f91004862d6413b7f26f0b13.jpg'
+    });
+
+    const languages = [
+        { name: 'English', code: 'gb', flag: 'https://i.pinimg.com/1200x/60/e1/2e/60e12ef8f91004862d6413b7f26f0b13.jpg' },
+        { name: 'French', code: 'fr', flag: 'https://flagcdn.com/w40/fr.png' },
+        { name: 'Spanish', code: 'es', flag: 'https://flagcdn.com/w40/es.png' },
+    ];
+
+    const handleLangSelect = (lang) => {
+        setSelectedLang(lang);
+        setIsLangOpen(false);
+    };
 
     return (
-        <nav className="relative z-50 max-w-[1400px] mx-auto text-white">
-            <div className="flex items-center justify-between px-6 md:px-12 py-4 lg:py-6 relative">
-
-                {/* Left: Mobile Hamburger - Custom 2-line style */}
-                <div className="lg:hidden z-50">
-                    <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 -ml-2 text-white">
-                        {mobileMenuOpen ? (
-                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                        ) : (
-                            <svg className="w-12 h-6" viewBox="0 0 40 20" fill="none" stroke="currentColor">
-                                <line x1="0" y1="2" x2="40" y2="2" strokeWidth="2" strokeLinecap="round" />
-                                <line x1="0" y1="18" x2="40" y2="18" strokeWidth="2" strokeLinecap="round" />
-                            </svg>
-                        )}
+        <nav className="w-full bg-white h-[70px] px-6 flex items-center justify-between shadow-sm border-b border-gray-100 relative z-50">
+            <div className="flex items-center gap-6">
+                <div className="flex items-center gap-6">
+                    <button
+                        onClick={onMenuClick}
+                        className="text-gray-500 hover:text-gray-700 cursor-pointer lg:hidden"
+                    >
+                        <Menu size={24} />
                     </button>
-                </div>
 
-                {/* Logo - Centered on mobile, Left on Desktop */}
-                <div className="text-2xl font-medium tracking-wide opacity-90 cursor-pointer hover:opacity-100 absolute left-1/2 -translate-x-1/2 lg:static lg:translate-x-0 lg:left-auto z-50">
-                    Logo
-                </div>
-
-                {/* Center: Desktop Menu */}
-                <div className="hidden lg:flex items-center gap-10 text-[13px] font-bold tracking-wider uppercase">
-                    <a href="#home" className="relative group py-2">
-                        <span className="group-hover:text-blue-200 transition-colors">HOME</span>
-                        <span className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-500 scale-x-100 transition-transform origin-left"></span>
-                    </a>
-                    <a href="#features" className="hover:text-cyan-200 transition-colors opacity-90 hover:opacity-100">FEATURES</a>
-                    <a href="#pricing" className="hover:text-cyan-200 transition-colors opacity-90 hover:opacity-100">PRICING</a>
-                    <a href="#reviews" className="hover:text-cyan-200 transition-colors opacity-90 hover:opacity-100">REVIEWS</a>
-                    <a href="#faq" className="hover:text-cyan-200 transition-colors opacity-90 hover:opacity-100">FAQ</a>
-                    <a href="#contacts" className="hover:text-cyan-200 transition-colors opacity-90 hover:opacity-100">CONTACTS</a>
-                </div>
-
-                {/* Right: Actions (Language, User) */}
-                <div className="flex items-center gap-3 relative z-50">
-                    <div className="flex items-center gap-3 bg-white text-[#1e293b] px-4 py-2.5 rounded-xl text-sm font-extrabold cursor-pointer hover:bg-gray-50 transition-colors shadow-lg min-w-[80px] justify-center">
-                        <img src="https://flagcdn.com/w20/us.png" alt="EN" className="w-6 h-auto shadow-sm rounded-[2px]" />
-                        <span className="uppercase tracking-wide">EN</span>
-                        <svg className="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                    <div className="relative hidden md:block">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                            <Search size={20} />
+                        </span>
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            className="pl-12 pr-4 py-2 bg-gray-100 rounded-full w-[380px] focus:outline-none focus:ring-2 focus:ring-blue-100 text-sm text-gray-700 placeholder-gray-400"
+                        />
                     </div>
-
-                    <button className="hidden lg:flex bg-orange-500 hover:bg-orange-600 text-white p-2.5 rounded-xl transition-colors shadow-md active:scale-95 items-center justify-center">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                    </button>
                 </div>
             </div>
 
-            {/* Mobile Menu Overlay */}
-            <div className={`lg:hidden fixed inset-0 bg-[#3b8dff] z-40 transition-transform duration-300 ease-in-out ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                <div className="flex flex-col items-center justify-center h-full gap-8 text-xl font-bold tracking-wider uppercase">
-                    <a href="#home" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-400 transition-colors">HOME</a>
-                    <a href="#features" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-400 transition-colors">FEATURES</a>
-                    <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-400 transition-colors">PRICING</a>
-                    <a href="#reviews" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-400 transition-colors">REVIEWS</a>
-                    <a href="#faq" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-400 transition-colors">FAQ</a>
-                    <a href="#contacts" onClick={() => setMobileMenuOpen(false)} className="hover:text-orange-400 transition-colors">CONTACTS</a>
+            <div className="flex items-center gap-4 md:gap-8">
+                <div className="relative">
+                    <div
+                        className="relative cursor-pointer"
+                        onClick={() => setIsNotifyOpen(!isNotifyOpen)}
+                    >
+                        <Bell className="text-blue-600" size={24} />
+                        <span className="absolute -top-1.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
+                            6
+                        </span>
+                    </div>
+
+                    {isNotifyOpen && (
+                        <div className="fixed left-4 right-4 top-[74px] md:absolute md:top-full md:left-auto md:right-[-16px] md:w-80 bg-white rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.1)] border border-gray-100 overflow-hidden animate-in fade-in zoom-in-95 duration-200 z-[100]">
+                            {/* Header */}
+                            <div className="px-6 py-5 border-b border-gray-50">
+                                <span className="text-lg font-bold text-gray-800">Notification</span>
+                            </div>
+
+                            {/* List */}
+                            <div className="py-2">
+                                <button className="w-full px-6 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
+                                    <div className="w-11 h-11 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                                        <Settings size={20} />
+                                    </div>
+                                    <div className="flex flex-col items-start translate-y-[-2px]">
+                                        <span className="text-sm font-bold text-gray-800">Settings</span>
+                                        <span className="text-xs font-semibold text-gray-400 mt-1">Update Dashboard</span>
+                                    </div>
+                                </button>
+
+                                <button className="w-full px-6 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
+                                    <div className="w-11 h-11 rounded-full bg-pink-100 flex items-center justify-center text-pink-500">
+                                        <Calendar size={20} />
+                                    </div>
+                                    <div className="flex flex-col items-start translate-y-[-2px]">
+                                        <span className="text-sm font-bold text-gray-800">Event Update</span>
+                                        <span className="text-xs font-semibold text-gray-400 mt-1">An event date update again</span>
+                                    </div>
+                                </button>
+
+                                <button className="w-full px-6 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
+                                    <div className="w-11 h-11 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-500">
+                                        <User size={20} />
+                                    </div>
+                                    <div className="flex flex-col items-start translate-y-[-2px]">
+                                        <span className="text-sm font-bold text-gray-800">Profile</span>
+                                        <span className="text-xs font-semibold text-gray-400 mt-1">Update your profile</span>
+                                    </div>
+                                </button>
+
+                                <button className="w-full px-6 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
+                                    <div className="w-11 h-11 rounded-full bg-red-100 flex items-center justify-center text-red-400">
+                                        <AlertCircle size={20} />
+                                    </div>
+                                    <div className="flex flex-col items-start translate-y-[-2px]">
+                                        <span className="text-sm font-bold text-gray-800">Application Error</span>
+                                        <span className="text-xs font-semibold text-gray-400 mt-1 uppercase">Check Your runnung application</span>
+                                    </div>
+                                </button>
+                            </div>
+
+                            {/* Footer */}
+                            <button className="w-full py-4 border-t border-gray-50 text-sm font-bold text-gray-400 hover:text-blue-500 transition-colors">
+                                See all notification
+                            </button>
+                        </div>
+                    )}
+                </div>
+
+                <div className="relative">
+                    <div
+                        className="hidden md:flex items-center gap-3 cursor-pointer"
+                        onClick={() => setIsLangOpen(!isLangOpen)}
+                    >
+                        <img
+                            src={selectedLang.flag}
+                            alt={`${selectedLang.name} Flag`}
+                            className="w-6 h-4 object-cover rounded-sm"
+                        />
+                        <span className="text-gray-600 text-sm font-medium">{selectedLang.name}</span>
+                        <ChevronDown size={16} className={`text-gray-500 transition-transform duration-200 ${isLangOpen ? 'rotate-180' : ''}`} />
+                    </div>
+
+                    {isLangOpen && (
+                        <div className="absolute top-full right-0 mt-3 w-48 bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-gray-100 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                            <div className="px-4 py-3 border-b border-gray-100">
+                                <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Select Language</span>
+                            </div>
+                            <div className="py-1">
+                                {languages.map((lang) => (
+                                    <button
+                                        key={lang.code}
+                                        onClick={() => handleLangSelect(lang)}
+                                        className="w-full flex items-center justify-between px-4 py-2 hover:bg-gray-50 transition-colors"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <img
+                                                src={lang.flag}
+                                                alt={`${lang.name} Flag`}
+                                                className="w-6 h-4 object-cover rounded-sm shadow-sm"
+                                            />
+                                            <span className={`text-sm ${selectedLang.code === lang.code ? 'font-medium text-gray-900' : 'text-gray-600'}`}>
+                                                {lang.name}
+                                            </span>
+                                        </div>
+                                        {selectedLang.code === lang.code && (
+                                            <Check size={16} className="text-blue-600" />
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                <div className="relative">
+                    <div
+                        className="flex items-center gap-3 cursor-pointer pl-4 select-none"
+                        onClick={() => setIsProfileOpen(!isProfileOpen)}
+                    >
+                        <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
+                            <img
+                                src="https://i.pinimg.com/1200x/1c/85/2e/1c852ea928150dfcf54c5457dbca0a35.jpg"
+                                alt="User Avatar"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                        <div className="flex flex-col hidden md:flex">
+                            <span className="text-sm font-bold text-gray-900 leading-none">Moni Roy</span>
+                            <span className="text-xs text-gray-500 font-medium mt-1">Admin</span>
+                        </div>
+                        <div className={`w-5 h-5 rounded-full border border-gray-200 flex items-center justify-center bg-white transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`}>
+                            <ChevronDown size={12} className="text-gray-500" />
+                        </div>
+                    </div>
+
+                    {isProfileOpen && (
+                        <div className="absolute top-full right-0 mt-3 w-64 bg-white rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-gray-100 py-2 animate-in fade-in zoom-in-95 duration-200">
+                            <a href="#" className="flex items-center gap-4 px-6 py-3 text-gray-700 hover:bg-gray-50 transition-colors">
+                                <UserCog size={20} className="text-blue-500" />
+                                <span className="text-sm font-medium">Manage Account</span>
+                            </a>
+                            <a href="#" className="flex items-center gap-4 px-6 py-3 text-gray-700 hover:bg-gray-50 transition-colors">
+                                <Key size={20} className="text-pink-500" />
+                                <span className="text-sm font-medium">Change Password</span>
+                            </a>
+                            <a href="#" className="flex items-center gap-4 px-6 py-3 text-gray-700 hover:bg-gray-50 transition-colors">
+                                <RotateCw size={20} className="text-purple-500" />
+                                <span className="text-sm font-medium">Activity Log</span>
+                            </a>
+                            <div className="h-px bg-gray-100 my-1 mx-6"></div>
+                            <a href="#" className="flex items-center gap-4 px-6 py-3 text-gray-700 hover:bg-gray-50 transition-colors">
+                                <LogOut size={20} className="text-red-400" />
+                                <span className="text-sm font-medium">Log out</span>
+                            </a>
+                        </div>
+                    )}
                 </div>
             </div>
         </nav>

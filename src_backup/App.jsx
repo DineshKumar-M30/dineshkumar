@@ -5,19 +5,16 @@ import Dashboard from './pages/Dashboard';
 import Products from './pages/Products';
 import Favorites from './pages/Favorites';
 import Inbox from './pages/Inbox';
-import OrderLists from './pages/OrderLists';
+import Calendar from './pages/Calendar';
 import ProductStock from './pages/ProductStock';
 import Pricing from './pages/Pricing';
-import Calendar from './pages/Calendar';
 import Todo from './pages/Todo';
+import OrderLists from './pages/OrderLists';
 import Contact from './pages/Contact';
 import Invoice from './pages/Invoice';
 import UiElements from './pages/UiElements';
 import Team from './pages/Team';
-import Table from './pages/Table';
-import Settings from './pages/Settings';
-import Login from './pages/Login';
-import Error404 from './pages/Error404';
+import TablePage from './pages/Table';
 import PlaceholderPage from './components/PlaceholderPage';
 
 const initialProductsData = [
@@ -96,13 +93,8 @@ const initialProductsData = [
 ];
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentView, setCurrentView] = useState('Dashboard');
   const [products, setProducts] = useState(initialProductsData);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-  const closeSidebar = () => setIsSidebarOpen(false);
 
   const toggleFavorite = (id) => {
     setProducts(products.map(product =>
@@ -112,53 +104,54 @@ function App() {
 
   const favoriteProducts = products.filter(product => product.isFavorite);
 
-  if (!isLoggedIn) {
-    return <Login onLogin={() => setIsLoggedIn(true)} />;
-  }
+  const renderContent = () => {
+    switch (currentView) {
+      case 'Dashboard':
+        return <Dashboard />;
+      case 'Products':
+        return <Products products={products} toggleFavorite={toggleFavorite} />;
+      case 'Favorites':
+        return <Favorites products={favoriteProducts} toggleFavorite={toggleFavorite} />;
+      case 'Inbox':
+        return <Inbox />;
+      case 'Calender': // Matching Sidebar label 'Calender'
+        return <Calendar />;
+      case 'Product Stock':
+        return <ProductStock />;
+      case 'Order Lists':
+        return <OrderLists />;
+      case 'Pricing':
+        return <Pricing />;
+      case 'To-Do':
+        return <Todo />;
+      case 'Contact':
+        return <Contact />;
+      case 'Invoice':
+        return <Invoice />;
+      case 'UI Elements':
+        return <UiElements />;
+      case 'Team':
+        return <Team />;
+      case 'Table':
+        return <TablePage />;
+      default:
+        return <PlaceholderPage title={currentView} />;
+    }
+  };
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden relative">
-      {/* Sidebar Overlay for Mobile */}
-      {isSidebarOpen && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-[60] backdrop-blur-sm transition-all animate-in fade-in duration-300"
-          onClick={closeSidebar}
-        />
-      )}
+    <div className="flex h-screen bg-gray-50 overflow-hidden font-outfit">
+      {/* Sidebar */}
+      <Sidebar activeItem={currentView} setActiveItem={setCurrentView} />
 
-      {/* Sidebar - Responsive Drawer */}
-      <div className={`
-        fixed lg:relative inset-y-0 left-0 z-[70] transition-transform duration-300 transform
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
-        <Sidebar
-          activeItem={currentView}
-          setActiveItem={(item) => {
-            setCurrentView(item);
-            closeSidebar();
-          }}
-        />
-      </div>
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col h-full overflow-hidden">
+        {/* Navbar */}
+        <Navbar />
 
-      <div className="flex-1 flex flex-col h-full overflow-hidden w-full">
-        <Navbar onMenuClick={toggleSidebar} />
+        {/* Page Content */}
         <div className="flex-1 overflow-auto">
-          {currentView === 'Dashboard' && <Dashboard />}
-          {currentView === 'Products' && <Products products={products} toggleFavorite={toggleFavorite} />}
-          {currentView === 'Favorites' && <Favorites products={favoriteProducts} toggleFavorite={toggleFavorite} />}
-          {currentView === 'Inbox' && <Inbox />}
-          {currentView === 'Order Lists' && <OrderLists />}
-          {currentView === 'Product Stock' && <ProductStock />}
-          {currentView === 'Pricing' && <Pricing />}
-          {currentView === 'Calender' && <Calendar />}
-          {currentView === 'To-Do' && <Todo />}
-          {currentView === 'Contact' && <Contact />}
-          {currentView === 'Invoice' && <Invoice />}
-          {currentView === 'UI Elements' && <UiElements />}
-          {currentView === 'Team' && <Team />}
-          {currentView === 'Table' && <Table />}
-          {currentView === 'Settings' && <Settings />}
-          {currentView !== 'Dashboard' && currentView !== 'Products' && currentView !== 'Favorites' && currentView !== 'Inbox' && currentView !== 'Order Lists' && currentView !== 'Product Stock' && currentView !== 'Pricing' && currentView !== 'Calender' && currentView !== 'To-Do' && currentView !== 'Contact' && currentView !== 'Invoice' && currentView !== 'UI Elements' && currentView !== 'Team' && currentView !== 'Table' && currentView !== 'Settings' && <Error404 onBack={() => setCurrentView('Dashboard')} />}
+          {renderContent()}
         </div>
       </div>
     </div>
