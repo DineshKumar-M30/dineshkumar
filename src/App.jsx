@@ -1,167 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
-import Dashboard from './pages/Dashboard';
-import Products from './pages/Products';
-import Favorites from './pages/Favorites';
-import Inbox from './pages/Inbox';
-import OrderLists from './pages/OrderLists';
-import ProductStock from './pages/ProductStock';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import About from './pages/About';
+import Services from './pages/Services';
+import Blog from './pages/Blog';
+import Projects from './pages/Projects';
 import Pricing from './pages/Pricing';
-import Calendar from './pages/Calendar';
-import Todo from './pages/Todo';
 import Contact from './pages/Contact';
-import Invoice from './pages/Invoice';
-import UiElements from './pages/UiElements';
-import Team from './pages/Team';
-import Table from './pages/Table';
-import Settings from './pages/Settings';
-import Login from './pages/Login';
-import Error404 from './pages/Error404';
-import PlaceholderPage from './components/PlaceholderPage';
 
-const initialProductsData = [
-  {
-    id: 1,
-    name: "Apple Watch Series 4",
-    price: "120.00",
-    image: "https://i.pinimg.com/736x/c7/2a/28/c72a287af1752c8073a4d084c9dd31f4.jpg",
-    reviews: 131,
-    isFavorite: false
-  },
-  {
-    id: 2,
-    name: "Air-Max-270",
-    price: "60.00",
-    image: "https://i.pinimg.com/1200x/79/64/06/7964062fa42154d7d2e5ff20739f96ac.jpg",
-    reviews: 45,
-    isFavorite: true
-  },
-  {
-    id: 3,
-    name: "Minimalist Chair",
-    price: "85.00",
-    image: "https://i.pinimg.com/1200x/d5/e5/aa/d5e5aacf58d69b6efb5b64f96d3ae314.jpg",
-    reviews: 210,
-    isFavorite: false
-  },
-  {
-    id: 4,
-    name: "Amazfit Vip",
-    price: "70.25",
-    image: "https://i.pinimg.com/736x/bf/e4/f6/bfe4f6efda6d48e5cab4619e8a58512b.jpg",
-    reviews: 131,
-    isFavorite: true
-  },
-  {
-    id: 5,
-    name: "Iphone 13 Pro",
-    price: "91,999.00",
-    image: "https://i.pinimg.com/1200x/05/8b/32/058b329b141fa4abddc974f01eb691a2.jpg",
-    reviews: 64,
-    isFavorite: false
-  },
-  {
-    id: 6,
-    name: "Camera Tripod",
-    price: "50.00",
-    image: "https://i.pinimg.com/736x/20/67/f0/2067f08538378db275b704aaabeb7d5d.jpg",
-    reviews: 63,
-    isFavorite: true
-  },
-  {
-    id: 7,
-    name: "Beats Headphone 2019",
-    price: "89.00",
-    image: "https://i.pinimg.com/736x/87/7f/24/877f249c2c2df0c19dc018a0e74c50bd.jpg",
-    reviews: 120,
-    isFavorite: false
-  },
-  {
-    id: 8,
-    name: "Macbook Pro",
-    price: "999.00",
-    image: "https://i.pinimg.com/1200x/18/30/7d/18307dfde0f655618d822607bda8c931.jpg",
-    reviews: 450,
-    isFavorite: false
-  },
-  {
-    id: 9,
-    name: "Gaming Controller",
-    price: "55.00",
-    image: "https://i.pinimg.com/1200x/e1/0f/c3/e10fc3b40a282173d7504b0d3c6c990c.jpg",
-    reviews: 80,
-    isFavorite: true
-  }
-];
+// Scroll to top component
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentView, setCurrentView] = useState('Dashboard');
-  const [products, setProducts] = useState(initialProductsData);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
-  const closeSidebar = () => setIsSidebarOpen(false);
-
-  const toggleFavorite = (id) => {
-    setProducts(products.map(product =>
-      product.id === id ? { ...product, isFavorite: !product.isFavorite } : product
-    ));
-  };
-
-  const favoriteProducts = products.filter(product => product.isFavorite);
-
-  if (!isLoggedIn) {
-    return <Login onLogin={() => setIsLoggedIn(true)} />;
-  }
-
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden relative">
-      {/* Sidebar Overlay for Mobile */}
-      {isSidebarOpen && (
-        <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-[60] backdrop-blur-sm transition-all animate-in fade-in duration-300"
-          onClick={closeSidebar}
-        />
-      )}
-
-      {/* Sidebar - Responsive Drawer */}
-      <div className={`
-        fixed lg:relative inset-y-0 left-0 z-[70] transition-transform duration-300 transform
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
-        <Sidebar
-          activeItem={currentView}
-          setActiveItem={(item) => {
-            setCurrentView(item);
-            closeSidebar();
-          }}
-        />
+    <Router>
+      <ScrollToTop />
+      <div className="font-sans">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+        <Footer />
       </div>
-
-      <div className="flex-1 flex flex-col h-full overflow-hidden w-full">
-        <Navbar onMenuClick={toggleSidebar} />
-        <div className="flex-1 overflow-auto">
-          {currentView === 'Dashboard' && <Dashboard />}
-          {currentView === 'Products' && <Products products={products} toggleFavorite={toggleFavorite} />}
-          {currentView === 'Favorites' && <Favorites products={favoriteProducts} toggleFavorite={toggleFavorite} />}
-          {currentView === 'Inbox' && <Inbox />}
-          {currentView === 'Order Lists' && <OrderLists />}
-          {currentView === 'Product Stock' && <ProductStock />}
-          {currentView === 'Pricing' && <Pricing />}
-          {currentView === 'Calender' && <Calendar />}
-          {currentView === 'To-Do' && <Todo />}
-          {currentView === 'Contact' && <Contact />}
-          {currentView === 'Invoice' && <Invoice />}
-          {currentView === 'UI Elements' && <UiElements />}
-          {currentView === 'Team' && <Team />}
-          {currentView === 'Table' && <Table />}
-          {currentView === 'Settings' && <Settings />}
-          {currentView !== 'Dashboard' && currentView !== 'Products' && currentView !== 'Favorites' && currentView !== 'Inbox' && currentView !== 'Order Lists' && currentView !== 'Product Stock' && currentView !== 'Pricing' && currentView !== 'Calender' && currentView !== 'To-Do' && currentView !== 'Contact' && currentView !== 'Invoice' && currentView !== 'UI Elements' && currentView !== 'Team' && currentView !== 'Table' && currentView !== 'Settings' && <Error404 onBack={() => setCurrentView('Dashboard')} />}
-        </div>
-      </div>
-    </div>
+    </Router>
   );
 }
 

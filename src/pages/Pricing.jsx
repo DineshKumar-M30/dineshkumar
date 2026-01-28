@@ -1,112 +1,159 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Settings, CheckCircle2, Check, ArrowUpRight } from 'lucide-react';
+import WhatWeDo from '../components/WhatWeDo';
+import Testimonial from '../components/Testimonial';
 
 const Pricing = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const plans = [
         {
-            name: "Basic",
-            price: "14.99",
+            price: "39",
+            name: "Advanced Plan",
             features: [
-                { name: "Free Setup", active: true },
-                { name: "Bandwidth Limit 10 GB", active: true },
-                { name: "20 User Connection", active: true },
-                { name: "Analytics Report", active: false },
-                { name: "Public API Access", active: false },
-                { name: "Plugins Intregation", active: false },
-                { name: "Custom Content Management", active: false },
+                "Standard Manufacturing Services",
+                "Quality Control Checks",
+                "Technical Support",
+                "Monthly Progress Reports"
             ],
-            buttonStyle: "outline"
+            highlight: false
         },
         {
-            name: "Standard",
-            price: "49.99",
+            price: "39",
+            name: "Advanced Plan",
             features: [
-                { name: "Free Setup", active: true },
-                { name: "Bandwidth Limit 10 GB", active: true },
-                { name: "20 User Connection", active: true },
-                { name: "Analytics Report", active: true },
-                { name: "Public API Access", active: true },
-                { name: "Plugins Intregation", active: false },
-                { name: "Custom Content Management", active: false },
+                "Standard Manufacturing Services",
+                "Quality Control Checks",
+                "Technical Support",
+                "Monthly Progress Reports"
             ],
-            buttonStyle: "outline"
+            highlight: true
         },
         {
-            name: "Premium",
-            price: "89.99",
+            price: "39",
+            name: "Advanced Plan",
             features: [
-                { name: "Free Setup", active: true },
-                { name: "Bandwidth Limit 10 GB", active: true },
-                { name: "20 User Connection", active: true },
-                { name: "Analytics Report", active: true },
-                { name: "Public API Access", active: true },
-                { name: "Plugins Intregation", active: true },
-                { name: "Custom Content Management", active: true },
+                "Standard Manufacturing Services",
+                "Quality Control Checks",
+                "Technical Support",
+                "Monthly Progress Reports"
             ],
-            buttonStyle: "solid"
+            highlight: false
         }
     ];
 
     return (
-        <div className="p-8 bg-gray-50 min-h-full">
-            <h2 className="text-3xl font-bold text-gray-900 mb-8">Pricing</h2>
+        <div className="font-sans bg-white">
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                {plans.map((plan, index) => (
-                    <div
-                        key={index}
-                        className="bg-white rounded-[40px] p-10 shadow-sm border border-gray-100 flex flex-col items-center relative overflow-hidden group hover:shadow-xl hover:border-blue-100 transition-all duration-300"
-                    >
-                        {/* Background Decoration (Subtle Wave Simulation) */}
-                        <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-[0.03]">
-                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-                                <path fill="#4F46E5" d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-5.2C93.5,8.8,82.2,21.9,71.4,33.1C60.6,44.3,50.3,53.6,39.1,61.9C27.9,70.2,15.8,77.6,2.7,72.9C-10.4,68.2,-24.5,51.4,-36.8,38.1C-49.1,24.8,-59.6,15,-66.4,1.8C-73.2,-11.4,-76.3,-28,-69.8,-41.8C-63.3,-55.6,-47.2,-66.6,-31.6,-73.1C-16,-79.6,-0.9,-81.6,13.2,-79.8C27.3,-78,41.4,-72.4,44.7,-76.4Z" transform="translate(100 100)" />
-                            </svg>
-                        </div>
+            {/* Hero Section */}
+            <section className="relative h-[500px] flex items-center justify-start overflow-hidden">
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="https://i.pinimg.com/736x/c2/6f/68/c26f68ef324a7b99a552da4aeac745bc.jpg"
+                        alt="Factory Background"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/60"></div>
+                </div>
+                <div className="relative z-10 text-white px-6 md:px-12 lg:px-20 mt-16 max-w-[1440px] mx-auto w-full">
+                    <h1 className="text-4xl md:text-5xl lg:text-[64px] font-light mb-4 text-left">
+                        Pricing <span className="font-bold">plan</span>
+                    </h1>
+                    <div className="flex items-center gap-2 text-sm md:text-base text-gray-300">
+                        <span>Home</span>
+                        <div className="w-1 h-1 bg-orange-500 rounded-full"></div>
+                        <span className="text-orange-500">Pricing</span>
+                    </div>
+                </div>
+            </section>
 
-                        {/* Title Section */}
-                        <div className="text-center mb-8 relative z-10 w-full">
-                            <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
-                            <p className="text-sm text-gray-500 mb-4">Monthly Charge</p>
-                            <div className="text-5xl font-bold text-gray-900 group-hover:text-blue-500 transition-colors duration-300 tracking-tight">
-                                ${plan.price}
-                            </div>
-                        </div>
+            {/* Pricing Cards Section */}
+            <section className="py-20 lg:py-28 bg-white">
+                <div className="max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
 
-                        {/* Divider */}
-                        <div className="w-full h-px bg-gray-100 mb-8 z-10"></div>
-
-                        {/* Features List */}
-                        <div className="flex-1 w-full relative z-10">
-                            <ul className="space-y-6 text-center">
-                                {plan.features.map((feature, i) => (
-                                    <li
-                                        key={i}
-                                        className={`text-sm font-medium ${feature.active ? 'text-gray-900' : 'text-gray-300'}`}
-                                    >
-                                        {feature.name}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        {/* Action Section */}
-                        <div className="mt-10 w-full flex flex-col items-center gap-6 relative z-10">
-                            <button
-                                className={`px-10 py-3 rounded-full font-semibold transition-all duration-300 border w-48 text-sm
-                                    ${plan.buttonStyle === 'solid'
-                                        ? 'bg-transparent text-gray-400 border-gray-200 group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-lg group-hover:shadow-blue-500/30'
-                                        : 'bg-transparent text-gray-400 border-gray-200 group-hover:bg-blue-500 group-hover:text-white group-hover:border-blue-500 group-hover:shadow-lg group-hover:shadow-blue-500/30'
-                                    }`}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                        {plans.map((plan, index) => (
+                            <div
+                                key={index}
+                                className="group relative rounded-[32px] p-10 lg:p-12 overflow-hidden transition-all duration-300 hover:-translate-y-2 bg-[#F8F9FB] hover:bg-orange-500 hover:shadow-xl hover:shadow-orange-500/20"
                             >
-                                Get Started
-                            </button>
-                            <button className="text-gray-900 text-xs font-bold underline decoration-gray-900/30 underline-offset-4 hover:decoration-gray-900 transition-all">
-                                Start Your 30 Day Free Trial
-                            </button>
+                                {/* Background Decoration - Only visible on hover */}
+                                <div className="absolute top-0 right-0 p-0 pointer-events-none opacity-0 group-hover:opacity-20 transition-opacity duration-300">
+                                    <svg width="120" height="120" viewBox="0 0 100 100" fill="none">
+                                        <circle cx="80" cy="20" r="30" stroke="white" strokeWidth="1.5" />
+                                        <circle cx="80" cy="20" r="15" stroke="white" strokeWidth="1.5" />
+                                        <path d="M50 0 L100 50" stroke="white" strokeWidth="1.5" />
+                                    </svg>
+                                </div>
+                                <div className="absolute top-4 right-4 text-white opacity-0 group-hover:opacity-20 transition-opacity duration-300">
+                                    <Settings size={60} strokeWidth={1} />
+                                </div>
+
+                                {/* Price */}
+                                <div className="flex items-end gap-1 mb-2">
+                                    <span className="text-5xl font-bold text-orange-500 group-hover:text-white transition-colors duration-300">${plan.price}</span>
+                                    <span className="text-[15px] mb-1.5 text-gray-400 group-hover:text-white/80 transition-colors duration-300">/month</span>
+                                </div>
+
+                                {/* Plan Name */}
+                                <h3 className="text-lg font-medium mb-10 text-gray-800 group-hover:text-white transition-colors duration-300">
+                                    {plan.name}
+                                </h3>
+
+                                {/* Features */}
+                                <ul className="flex flex-col gap-5 mb-12">
+                                    {plan.features.map((feature, idx) => (
+                                        <li key={idx} className="flex items-center gap-3">
+                                            <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 bg-orange-100 group-hover:bg-white/20 transition-colors duration-300">
+                                                <Settings
+                                                    size={14}
+                                                    className="text-orange-500 group-hover:text-white transition-colors duration-300"
+                                                    strokeWidth={2}
+                                                />
+                                            </div>
+                                            <span className="text-[15px] font-light text-gray-500 group-hover:text-white transition-colors duration-300">
+                                                {feature}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                {/* Button */}
+                                <button className="w-full py-4 rounded-xl font-bold text-[15px] transition-colors border bg-transparent border-orange-500 text-gray-900 
+                                    group-hover:border-white group-hover:bg-white group-hover:text-orange-500">
+                                    Purchase Now
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Bottom Features */}
+                    <div className="flex flex-wrap justify-center gap-8 md:gap-16 text-gray-500 text-sm font-medium">
+                        <div className="flex items-center gap-2">
+                            <CheckCircle2 size={18} className="text-orange-500" />
+                            <span>Get 30 day free trial</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Settings size={18} className="text-orange-500" />
+                            <span>No any hidden fees pay</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <CheckCircle2 size={18} className="text-orange-500" />
+                            <span>You can cancel anytime</span>
                         </div>
                     </div>
-                ))}
-            </div>
+
+                </div>
+            </section>
+
+            {/* What We Do Component */}
+            <WhatWeDo />
+
+            {/* Testimonial Component */}
+            <Testimonial />
+
         </div>
     );
 };

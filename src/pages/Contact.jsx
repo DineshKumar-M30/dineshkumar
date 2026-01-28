@@ -1,272 +1,172 @@
-import React, { useState, useRef } from 'react';
-import { Mail, Camera, ChevronDown, ArrowLeft } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 
 const Contact = () => {
-    const [view, setView] = useState('list'); // 'list' or 'add'
-    const [contacts, setContacts] = useState([
-        {
-            name: "Jason Price",
-            email: "kuhlman.jermey@yahoo.com",
-            avatar: "https://i.pinimg.com/1200x/21/cb/68/21cb6819aa02232ebb4398ff272d0a99.jpg"
-        },
-        {
-            name: "Duane Dean",
-            email: "rusty.botsford@wilfrid.io",
-            avatar: "https://i.pinimg.com/1200x/9f/c2/fa/9fc2facbfb77a7dc26c4c626d5308233.jpg"
-        },
-        {
-            name: "Jonathan Barker",
-            email: "cora_haley@quinn.biz",
-            avatar: "https://i.pinimg.com/1200x/ce/bb/0a/cebb0ace4532e076ce996d1200cc5f10.jpg"
-        },
-        {
-            name: "Rosie Glover",
-            email: "lockman.marques@hotmail.com",
-            avatar: "https://i.pinimg.com/1200x/21/c3/e1/21c3e166784a863350578f5d6d2ba6bc.jpg"
-        },
-        {
-            name: "Patrick Greer",
-            email: "peartie.eichmann@trevion.net",
-            avatar: "https://i.pinimg.com/1200x/8c/dc/1b/8cdc1b3ecd021d43e8ae4d7513121b2f.jpg"
-        },
-        {
-            name: "Darrell Ortega",
-            email: "chaya.shields@ferry.info",
-            avatar: "https://i.pinimg.com/1200x/b2/8a/54/b28a54f138a38869765515f0e710db4d.jpg"
-        }
-    ]);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
-    const [newContact, setNewContact] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        dob: '',
-        gender: 'Male',
-        avatar: null
-    });
+    return (
+        <div className="font-sans bg-white">
 
-    const fileInputRef = useRef(null);
+            {/* Hero Section */}
+            <section className="relative h-[500px] flex items-center justify-start overflow-hidden">
+                <div className="absolute inset-0 z-0">
+                    <img
+                        src="https://i.pinimg.com/736x/c2/6f/68/c26f68ef324a7b99a552da4aeac745bc.jpg"
+                        alt="Factory Background"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/60"></div>
+                </div>
+                <div className="relative z-10 text-white px-6 md:px-12 lg:px-20 mt-16 max-w-[1440px] mx-auto w-full">
+                    <h1 className="text-4xl md:text-5xl lg:text-[64px] font-light mb-4 text-left">
+                        Contact <span className="font-bold">us</span>
+                    </h1>
+                    <div className="flex items-center gap-2 text-sm md:text-base text-gray-300">
+                        <span>Home</span>
+                        <div className="w-1 h-1 bg-orange-500 rounded-full"></div>
+                        <span className="text-orange-500">Contact Us</span>
+                    </div>
+                </div>
+            </section>
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewContact(prev => ({ ...prev, [name]: value }));
-    };
-
-    const handlePhotoUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setNewContact(prev => ({ ...prev, avatar: reader.result }));
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const handleAddContact = (e) => {
-        e.preventDefault();
-        const contactToAdd = {
-            name: `${newContact.firstName} ${newContact.lastName}`,
-            email: newContact.email,
-            avatar: newContact.avatar || "https://i.pravatar.cc/150?u=" + newContact.email
-        };
-        setContacts(prev => [contactToAdd, ...prev]);
-        setView('list');
-        // Reset form
-        setNewContact({
-            firstName: '',
-            lastName: '',
-            email: '',
-            phoneNumber: '',
-            dob: '',
-            gender: 'Male',
-            avatar: null
-        });
-    };
-
-    if (view === 'add') {
-        return (
-            <div className="p-6 md:p-8 flex flex-col h-full bg-[#f8f9fa] animate-in fade-in duration-500">
-                {/* Header */}
-                <div className="flex items-center gap-4 mb-8">
-                    <button
-                        onClick={() => setView('list')}
-                        className="p-2 bg-white rounded-lg shadow-sm text-gray-400 hover:text-blue-500 transition-colors"
-                    >
-                        <ArrowLeft size={20} />
-                    </button>
-                    <h2 className="text-3xl font-extrabold text-[#202224] font-outfit">Add New Contact</h2>
+            {/* Main Content Section */}
+            <section className="relative py-20 lg:py-28 bg-[#F8F9FB] overflow-hidden">
+                {/* Background Pattern Overlay */}
+                <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
+                    style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
                 </div>
 
-                {/* Form Card */}
-                <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 p-12 max-w-5xl mx-auto w-full">
-                    <form onSubmit={handleAddContact} className="flex flex-col items-center">
-                        {/* Photo Upload Area */}
-                        <div className="flex flex-col items-center gap-4 mb-12">
-                            <input
-                                type="file"
-                                ref={fileInputRef}
-                                className="hidden"
-                                accept="image/*"
-                                onChange={handlePhotoUpload}
-                            />
-                            <div
-                                onClick={() => fileInputRef.current.click()}
-                                className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100 cursor-pointer hover:bg-gray-100 transition-all overflow-hidden"
-                            >
-                                {newContact.avatar ? (
-                                    <img src={newContact.avatar} alt="Preview" className="w-full h-full object-cover" />
-                                ) : (
-                                    <div className="bg-gray-200/50 p-4 rounded-full">
-                                        <Camera size={28} className="text-gray-400" />
-                                    </div>
-                                )}
-                            </div>
-                            <span
-                                onClick={() => fileInputRef.current.click()}
-                                className="text-[#4880FF] font-bold text-sm cursor-pointer hover:text-blue-600 transition-colors"
-                            >
-                                Upload Photo
-                            </span>
-                        </div>
+                <div className="relative z-10 max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20">
+                    <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
 
-                        {/* Form Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 w-full">
-                            <div>
-                                <label className="block text-gray-500 font-bold text-sm mb-3">First Name</label>
-                                <input
-                                    name="firstName"
-                                    value={newContact.firstName}
-                                    onChange={handleInputChange}
-                                    type="text"
-                                    placeholder="Enter your first name"
-                                    className="w-full bg-[#F5F6FA] border border-transparent rounded-xl p-4 text-gray-700 focus:bg-white focus:border-blue-500 transition-all outline-none"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-gray-500 font-bold text-sm mb-3">Last Name</label>
-                                <input
-                                    name="lastName"
-                                    value={newContact.lastName}
-                                    onChange={handleInputChange}
-                                    type="text"
-                                    placeholder="Enter your last name"
-                                    className="w-full bg-[#F5F6FA] border border-transparent rounded-xl p-4 text-gray-700 focus:bg-white focus:border-blue-500 transition-all outline-none"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-gray-500 font-bold text-sm mb-3">Your email</label>
-                                <input
-                                    name="email"
-                                    value={newContact.email}
-                                    onChange={handleInputChange}
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    className="w-full bg-[#F5F6FA] border border-transparent rounded-xl p-4 text-gray-700 focus:bg-white focus:border-blue-500 transition-all outline-none"
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-gray-500 font-bold text-sm mb-3">Phone Number</label>
-                                <input
-                                    name="phoneNumber"
-                                    value={newContact.phoneNumber}
-                                    onChange={handleInputChange}
-                                    type="text"
-                                    placeholder="Enter your phone number"
-                                    className="w-full bg-[#F5F6FA] border border-transparent rounded-xl p-4 text-gray-700 focus:bg-white focus:border-blue-500 transition-all outline-none"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-gray-500 font-bold text-sm mb-3">Date of Birth</label>
-                                <input
-                                    name="dob"
-                                    value={newContact.dob}
-                                    onChange={handleInputChange}
-                                    type="text"
-                                    placeholder="Enter your birthdate"
-                                    className="w-full bg-[#F5F6FA] border border-transparent rounded-xl p-4 text-gray-700 focus:bg-white focus:border-blue-500 transition-all outline-none"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-gray-500 font-bold text-sm mb-3">Gender</label>
-                                <div className="relative">
-                                    <select
-                                        name="gender"
-                                        value={newContact.gender}
-                                        onChange={handleInputChange}
-                                        className="w-full bg-[#F5F6FA] border border-transparent rounded-xl p-4 text-gray-700 focus:bg-white focus:border-blue-500 transition-all outline-none appearance-none font-medium"
-                                    >
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                        <option>Other</option>
-                                    </select>
-                                    <ChevronDown size={20} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        {/* Left Info Column */}
+                        <div className="lg:w-5/12 pt-8">
+                            <span className="flex items-center gap-2 text-orange-500 text-xs font-bold tracking-[0.2em] uppercase mb-4">
+                                <span className="p-1 border border-orange-500 rounded-full bg-orange-500"></span>
+                                Contact Us
+                            </span>
+                            <h2 className="text-4xl lg:text-[42px] leading-tight text-gray-900 mb-6 font-light">
+                                Get in touch <span className="font-bold">with us</span>
+                            </h2>
+                            <p className="text-gray-500 text-[15px] leading-relaxed mb-12">
+                                Reach out for any inquiries, support, or to discuss how we can meet your industrial needs.
+                            </p>
+
+                            <div className="flex flex-col gap-8">
+                                {/* Phone */}
+                                <div className="flex items-start gap-5">
+                                    <div className="w-12 h-12 rounded-lg bg-orange-500 flex items-center justify-center shrink-0 text-white shadow-lg shadow-orange-500/30">
+                                        <Phone size={20} fill="currentColor" />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-lg font-bold text-gray-900 mb-1">Contact</h4>
+                                        <p className="text-gray-500 text-sm font-light">+1.809.120.670</p>
+                                    </div>
+                                </div>
+
+                                {/* Email */}
+                                <div className="flex items-start gap-5">
+                                    <div className="w-12 h-12 rounded-lg bg-orange-500 flex items-center justify-center shrink-0 text-white shadow-lg shadow-orange-500/30">
+                                        <Mail size={20} fill="currentColor" />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-lg font-bold text-gray-900 mb-1">E-mail</h4>
+                                        <p className="text-gray-500 text-sm font-light">info@domainname.com</p>
+                                    </div>
+                                </div>
+
+                                {/* Address */}
+                                <div className="flex items-start gap-5">
+                                    <div className="w-12 h-12 rounded-lg bg-orange-500 flex items-center justify-center shrink-0 text-white shadow-lg shadow-orange-500/30">
+                                        <MapPin size={20} fill="currentColor" />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-lg font-bold text-gray-900 mb-1">Our Address</h4>
+                                        <p className="text-gray-500 text-sm font-light max-w-[200px]">37 San Juan Lane Graaf Florisstraat 22A, 3021 CH</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Submit Button */}
-                        <div className="mt-16 w-full flex justify-center">
-                            <button
-                                type="submit"
-                                className="bg-[#4880FF] hover:bg-blue-600 text-white font-extrabold px-32 py-4 rounded-xl transition-all shadow-xl shadow-blue-500/20 text-sm tracking-wide"
-                            >
-                                Add Now
-                            </button>
+                        {/* Right Form Column */}
+                        <div className="lg:w-7/12">
+                            <div className="bg-white rounded-[40px] p-8 md:p-12 shadow-sm">
+                                <h3 className="text-4xl text-gray-900 mb-10 font-light">
+                                    Contact <span className="font-bold">me</span>
+                                </h3>
+
+                                <form className="space-y-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <input
+                                                type="text"
+                                                placeholder="Enter first name"
+                                                className="w-full px-6 py-4 rounded-xl border border-gray-100 bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 transition-colors"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <input
+                                                type="text"
+                                                placeholder="Enter last name"
+                                                className="w-full px-6 py-4 rounded-xl border border-gray-100 bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 transition-colors"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <input
+                                            type="email"
+                                            placeholder="Enter your e-mail"
+                                            className="w-full px-6 py-4 rounded-xl border border-gray-100 bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 transition-colors"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <input
+                                            type="tel"
+                                            placeholder="Enter your phone no."
+                                            className="w-full px-6 py-4 rounded-xl border border-gray-100 bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 transition-colors"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <textarea
+                                            rows="5"
+                                            placeholder="Write Message"
+                                            className="w-full px-6 py-4 rounded-xl border border-gray-100 bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-orange-500/50 transition-colors resize-none"
+                                        ></textarea>
+                                    </div>
+
+                                    <button
+                                        type="button"
+                                        className="px-8 py-3.5 rounded-lg border border-orange-500 text-gray-900 font-bold text-sm bg-transparent hover:bg-orange-500 hover:text-white transition-all duration-300"
+                                    >
+                                        Submit Message
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                    </form>
-                </div>
-            </div>
-        );
-    }
 
-    return (
-        <div className="p-6 md:p-8 flex flex-col h-full bg-[#f8f9fa] animate-in fade-in duration-500">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-                <h2 className="text-3xl font-extrabold text-[#202224] font-outfit">Contact</h2>
-                <button
-                    onClick={() => setView('add')}
-                    className="bg-[#4880FF] hover:bg-blue-600 text-white font-bold px-6 py-2.5 rounded-lg text-sm transition-all shadow-md active:scale-95"
-                >
-                    Add New Contact
-                </button>
-            </div>
-
-            {/* Grid Container */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {contacts.map((contact, index) => (
-                    <div
-                        key={index}
-                        className="bg-white rounded-[24px] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-transparent hover:border-blue-100 group flex flex-col animate-in slide-in-from-bottom-4"
-                        style={{ animationDelay: `${index * 50}ms` }}
-                    >
-                        {/* Avatar Image */}
-                        <div className="w-full h-72 overflow-hidden p-4">
-                            <img
-                                src={contact.avatar}
-                                alt={contact.name}
-                                className="w-full h-full object-cover rounded-[18px] transition-transform duration-700 group-hover:scale-110"
-                            />
-                        </div>
-
-                        {/* info Container */}
-                        <div className="px-6 pb-8 flex flex-col items-center text-center">
-                            <h4 className="text-xl font-bold text-[#202224] mb-1">{contact.name}</h4>
-                            <p className="text-sm font-medium text-gray-400 mb-6">{contact.email}</p>
-
-                            <button className="w-fit flex items-center justify-center gap-2 px-8 py-2.5 border border-gray-100 rounded-xl text-sm font-bold text-gray-500 hover:bg-gray-50 hover:text-blue-500 transition-all group/btn">
-                                <Mail size={16} className="text-gray-400 group-hover/btn:text-blue-500" />
-                                <span>Message</span>
-                            </button>
-                        </div>
                     </div>
-                ))}
-            </div>
+                </div>
+            </section>
+
+            {/* Map Section */}
+            <section className="h-[400px] w-full">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2483.5464673673553!2d-0.12167428407421876!3d51.50320701882414!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604b900d26973%3A0x4291f3172409ea92!2slastminute.com%20London%20Eye!5e0!3m2!1sen!2suk!4v1655118746761!5m2!1sen!2suk"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, filter: 'grayscale(0%)' }}
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Google Map"
+                ></iframe>
+            </section>
+
         </div>
     );
 };

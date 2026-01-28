@@ -1,2 +1,0 @@
-﻿204f8ab Refine Inbox UI spacing and colors
-028523a Initial commit - Admin Dashboard with Inbox, Products, and Favorites
