@@ -1,0 +1,770 @@
+// ==========================================
+// FILE: src/App.jsx
+// ==========================================
+import { useState } from 'react';
+import { Ship, List, CalendarCheck, DollarSign, HelpCircle, Search, Plus, ChevronDown, Calendar, CheckSquare, XSquare, Clock } from 'lucide-react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+function App() {
+  const [activeTab, setActiveTab] = useState('bookings');
+
+  return (
+    <div className="app-container">
+      {/* Sidebar */}
+      <aside className="sidebar">
+        <div className="brand">
+          <Ship size={28} className="brand-logo" />
+          <div>
+            <h1>iCruise Egypt</h1>
+            <span className="admin-badge">Admin Dashboard</span>
+          </div>
+        </div>
+
+        <nav className="nav-menu">
+          <a className={`nav-item ${activeTab === 'listings' ? 'active' : ''}`} onClick={() => setActiveTab('listings')}>
+            <List size={20} className="nav-icon" />
+            Listings
+          </a>
+          <a className={`nav-item ${activeTab === 'bookings' ? 'active' : ''}`} onClick={() => setActiveTab('bookings')}>
+            <CalendarCheck size={20} className="nav-icon" />
+            Bookings
+          </a>
+          <a className={`nav-item ${activeTab === 'revenue' ? 'active' : ''}`} onClick={() => setActiveTab('revenue')}>
+            <DollarSign size={20} className="nav-icon" />
+            Revenue & Commission
+          </a>
+        </nav>
+
+        <div style={{ flexGrow: 1 }}></div>
+
+        <nav className="nav-menu">
+          <a className="nav-item">
+            <HelpCircle size={20} className="nav-icon" />
+            Help & Support
+          </a>
+        </nav>
+      </aside>
+
+      {/* Main Content */}
+      <main className="main-content">
+        <header className="header">
+          <div className="search-bar">
+            <Search size={18} color="#94a3b8" />
+            <input type="text" placeholder="Search" />
+          </div>
+
+          <div className="header-actions">
+            <button className="btn-primary">
+              <Plus size={18} />
+              Smart Trip Planer Setup
+            </button>
+            <div className="user-profile">
+              <div className="avatar"></div>
+              <div className="user-info">
+                <span className="user-name">Easin Arafat</span>
+                <span className="user-email">kumar@icruise.com</span>
+              </div>
+              <ChevronDown size={16} color="#64748b" />
+            </div>
+          </div>
+        </header>
+
+        <div className="page-content">
+          {activeTab === 'bookings' && <BookingsView />}
+          {activeTab === 'revenue' && <RevenueView />}
+          {activeTab === 'listings' && <div>Listings View (Not shown in Figma)</div>}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+const mockBookingsData = [
+  { id: 'BK-000123', name: 'John Doe', cruise: 'Nile Explorer', travelDate: '18 July 2026', bookDate: '01 Jun 2026', status: 'Confirmed' },
+  { id: 'BK-000125', name: 'Ahmed Khan', cruise: 'Med Cruise', travelDate: '02 Aug 2026', bookDate: '07 Jun 2026', status: 'Pending' },
+  { id: 'BK-000124', name: 'Sara Ali', cruise: 'Red Sea Pearl', travelDate: '25 July 2026', bookDate: '05 Jun 2026', status: 'Cancelled' },
+];
+
+function BookingsView() {
+  const [filterStatus, setFilterStatus] = useState('All');
+
+  return (
+    <>
+      <div className="page-header">
+        <h2 className="page-title">Booking Insights</h2>
+        <p className="page-subtitle">Manage and view all Partner Booking Insights Details</p>
+      </div>
+
+      <div className="filters-container">
+        <div className="filter-input">
+          <Search size={18} color="#94a3b8" />
+          <input type="text" placeholder="Search by Booking ID/ Customer Name.." />
+        </div>
+        
+        <div className="filter-select">
+          <label>Date Range</label>
+          <div className="select-box">
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Calendar size={16} />
+              Pick Date
+            </div>
+            <ChevronDown size={16} />
+          </div>
+        </div>
+
+        <div className="filter-select">
+          <label>Status:</label>
+          <div className="select-box">
+            Select an option
+            <ChevronDown size={16} />
+          </div>
+        </div>
+      </div>
+
+      <div className="stats-grid">
+        <div className="stat-card stat-card-blue">
+          <div className="stat-icon"><Ship size={24} /></div>
+          <div className="stat-content">
+            <span className="stat-title">Total Bookings</span>
+            <span className="stat-value">245</span>
+          </div>
+        </div>
+        <div className="stat-card stat-card-green">
+          <div className="stat-icon"><CalendarCheck size={24} /></div>
+          <div className="stat-content">
+            <span className="stat-title">Confirmed</span>
+            <span className="stat-value">210</span>
+          </div>
+        </div>
+        <div className="stat-card stat-card-yellow">
+          <div className="stat-icon"><Clock size={24} /></div>
+          <div className="stat-content">
+            <span className="stat-title">Pending</span>
+            <span className="stat-value">20</span>
+          </div>
+        </div>
+        <div className="stat-card stat-card-red">
+          <div className="stat-icon"><XSquare size={24} /></div>
+          <div className="stat-content">
+            <span className="stat-title">Cancelled</span>
+            <span className="stat-value">15</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Customer Name</th>
+              <th>Cruise Name</th>
+              <th>Travel date</th>
+              <th>Booking Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {mockBookingsData.map((booking) => (
+              <tr key={booking.id}>
+                <td>{booking.id}</td>
+                <td>{booking.name}</td>
+                <td>{booking.cruise}</td>
+                <td>{booking.travelDate}</td>
+                <td>{booking.bookDate}</td>
+                <td>
+                  <span className={`status-badge status-${booking.status.toLowerCase()}`}>
+                    {booking.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+}
+
+const chartData = [
+  { name: 'Jan', current: 50000, previous: 85000 },
+  { name: 'Feb', current: 62000, previous: 22000 },
+  { name: 'Mar', current: 42000, previous: 40000 },
+  { name: 'Apr', current: 102000, previous: 25000 },
+  { name: 'May', current: 18000, previous: 50000 },
+  { name: 'Jun', current: 18000, previous: 15000 },
+  { name: 'Jul', current: 48000, previous: 70000 },
+  { name: 'Aug', current: 118000, previous: 18000 },
+  { name: 'Sep', current: 118000, previous: 70000 },
+  { name: 'Oct', current: 68000, previous: 65000 },
+  { name: 'Nov', current: 18000, previous: 102000 },
+  { name: 'Dec', current: 18000, previous: 52000 },
+];
+
+function RevenueView() {
+  return (
+    <>
+      <div className="page-header">
+        <h2 className="page-title">Revenue & Commission</h2>
+        <p className="page-subtitle">Manage and view all Your Revenue & Commission Details</p>
+      </div>
+
+      <div className="filters-container" style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div className="filter-input" style={{ flex: '0 1 400px' }}>
+          <Search size={18} color="#94a3b8" />
+          <input type="text" placeholder="Search by Booking ID/ Traveller/ Cruise Name.." />
+        </div>
+        
+        <div className="filter-select">
+          <label>Time filter:</label>
+          <div className="select-box">
+            This Month
+            <ChevronDown size={16} />
+          </div>
+        </div>
+      </div>
+
+      <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        <div className="stat-card stat-card-blue stat-card-horizontal">
+          <div className="stat-icon"><CheckSquare size={24} /></div>
+          <div className="stat-content">
+            <span className="stat-title">Total Bookings</span>
+            <span className="stat-value">245</span>
+          </div>
+        </div>
+        <div className="stat-card stat-card-green stat-card-horizontal">
+          <div className="stat-icon"><DollarSign size={24} /></div>
+          <div className="stat-content">
+            <span className="stat-title">Total Revenue</span>
+            <span className="stat-value">$125,000</span>
+          </div>
+        </div>
+        <div className="stat-card stat-card-red stat-card-horizontal">
+          <div className="stat-icon"><DollarSign size={24} /></div>
+          <div className="stat-content">
+            <span className="stat-title">Commission Earned</span>
+            <span className="stat-value">$18,500</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="chart-card">
+        <h3 className="chart-title">Revenue Trends</h3>
+        <div style={{ height: 300 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" vertical={true} horizontal={true} stroke="#f0f0f0" />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} tick={false} />
+              <YAxis axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 12}} tickFormatter={(val) => `$${val/1000}k`} />
+              <Tooltip />
+              <Area type="monotone" dataKey="current" stroke="#22c55e" fill="#dcfce7" fillOpacity={0.5} strokeWidth={2} dot={{ r: 4, fill: "#fff", stroke: "#22c55e", strokeWidth: 2 }} />
+              <Area type="monotone" dataKey="previous" stroke="#3b82f6" fill="#e2eafc" fillOpacity={0.5} strokeWidth={2} dot={{ r: 4, fill: "#fff", stroke: "#3b82f6", strokeWidth: 2 }} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', marginTop: '16px', fontSize: '12px', color: '#64748b' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#e2eafc', border: '2px solid #3b82f6' }}></div>
+            Previous Period ($110,000)
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#dcfce7', border: '2px solid #22c55e' }}></div>
+            Current Period ($125,000)
+          </div>
+        </div>
+      </div>
+
+      <div className="commission-summary">
+        <h3 className="commission-title">Commission Summary</h3>
+        <div className="commission-grid">
+          <div className="commission-card commission-card-yellow">
+            <div className="stat-content">
+              <span className="stat-title">Total Commission Earned</span>
+              <span className="stat-value" style={{color: '#ca8a04'}}>$18,500</span>
+            </div>
+          </div>
+          <div className="commission-card commission-card-green">
+            <div className="stat-content">
+              <span className="stat-title">Booking Eligible Commission</span>
+              <span className="stat-value" style={{color: '#16a34a'}}>220</span>
+            </div>
+          </div>
+          <div className="commission-card commission-card-red">
+            <div className="stat-content">
+              <span className="stat-title">Pending Commission</span>
+              <span className="stat-value" style={{color: '#dc2626'}}>$2,300</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default App;
+
+
+// ==========================================
+// FILE: src/index.css
+// ==========================================
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-blue: #3266ff;
+  --bg-color: #f7f9fc;
+  --sidebar-bg: #ffffff;
+  --text-dark: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  
+  --card-bg: #ffffff;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+  --radius-sm: 4px;
+
+  /* Card Colors */
+  --card-blue-bg: #e2eafc;
+  --card-blue-icon: #3266ff;
+  
+  --card-green-bg: #dcfce7;
+  --card-green-icon: #22c55e;
+  
+  --card-red-bg: #fee2e2;
+  --card-red-icon: #ef4444;
+  
+  --card-yellow-bg: #fef9c3;
+  --card-yellow-icon: #eab308;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Layout */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 16px;
+  position: fixed;
+  height: 100vh;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  padding-left: 12px;
+}
+
+.brand-logo {
+  color: var(--primary-blue);
+}
+
+.brand h1 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.admin-badge {
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-item:hover {
+  background-color: #f8fafc;
+  color: var(--text-dark);
+}
+
+.nav-item.active {
+  background-color: #eef2ff;
+  color: var(--primary-blue);
+}
+
+.nav-item.active .nav-icon {
+  color: var(--primary-blue);
+}
+
+/* Main Content */
+.main-content {
+  flex-grow: 1;
+  margin-left: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  background: var(--bg-color);
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  padding: 10px 16px;
+  border-radius: 20px;
+  width: 320px;
+}
+
+.search-bar input {
+  border: none;
+  outline: none;
+  margin-left: 8px;
+  width: 100%;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.btn-primary {
+  background-color: var(--primary-blue);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #fecdd3;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.user-email {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* Page Content */
+.page-content {
+  padding: 20px 40px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Filters */
+.filters-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 32px;
+  background: white;
+  padding: 16px 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.filter-input {
+  display: flex;
+  align-items: center;
+  background: var(--bg-color);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  flex: 1;
+}
+
+.filter-input input {
+  border: none;
+  background: transparent;
+  outline: none;
+  margin-left: 8px;
+  width: 100%;
+  font-size: 14px;
+}
+
+.filter-select {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter-select label {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.select-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--primary-blue);
+  color: var(--primary-blue);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  width: 160px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  background: white;
+}
+
+/* Stat Cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card-blue { background: var(--card-blue-bg); }
+.stat-card-green { background: var(--card-green-bg); }
+.stat-card-yellow { background: var(--card-yellow-bg); }
+.stat-card-red { background: var(--card-red-bg); }
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-card-blue .stat-icon { background: var(--card-blue-icon); color: white; }
+.stat-card-green .stat-icon { background: var(--card-green-icon); color: white; }
+.stat-card-yellow .stat-icon { background: var(--card-yellow-icon); color: white; }
+.stat-card-red .stat-icon { background: var(--card-red-icon); color: white; }
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-title {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.stat-card-blue .stat-value { color: var(--card-blue-icon); }
+.stat-card-green .stat-value { color: var(--card-green-icon); }
+.stat-card-yellow .stat-value { color: var(--card-yellow-icon); }
+.stat-card-red .stat-value { color: var(--card-red-icon); }
+
+
+/* Layout specifically for Revenue view where icon and text are side by side */
+.stat-card-horizontal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Table */
+.table-container {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 16px;
+  text-align: left;
+}
+
+th {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+  border-bottom: 1px solid var(--border-color);
+  background-color: #fafafa;
+}
+
+td {
+  font-size: 14px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.status-confirmed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-pending {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.status-cancelled {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Chart Card */
+.chart-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.chart-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* Commission Summary */
+.commission-summary {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.commission-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.commission-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.commission-card {
+  padding: 24px;
+  border-radius: var(--radius-md);
+}
+
+.commission-card-yellow { background: var(--card-yellow-bg); }
+.commission-card-green { background: var(--card-green-bg); }
+.commission-card-red { background: var(--card-red-bg); }
+
+.commission-card .stat-title {
+  margin-bottom: 8px;
+}
